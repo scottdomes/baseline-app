@@ -12,7 +12,6 @@ import { WebBrowser } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 
 import { MonoText } from "../components/StyledText";
-
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null

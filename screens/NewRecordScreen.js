@@ -35,7 +35,6 @@ export default class LinksScreen extends React.Component {
                 onPress={this.handleSelectNumber.bind(this, num)}
                 style={styles.button}
                 key={num}
-                large
                 title={`${num}`}
               />
             );

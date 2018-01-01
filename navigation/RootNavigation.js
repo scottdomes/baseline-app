@@ -4,12 +4,18 @@ import { StackNavigator } from 'react-navigation';
 
 import MainTabNavigator from './MainTabNavigator';
 import registerForPushNotificationsAsync from '../api/registerForPushNotificationsAsync';
+import LoginScreen from '../screens/LoginScreen';
+import LoginNavigator from './LoginNavigator';
 
 const RootStackNavigator = StackNavigator(
   {
     Main: {
-      screen: MainTabNavigator,
+      screen: LoginNavigator,
     },
+    Login: {
+      screen: LoginScreen,
+    },
+    
   },
   {
     navigationOptions: () => ({
