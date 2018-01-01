@@ -3,11 +3,26 @@ import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { AppLoading, Asset, Font } from 'expo';
 import { Ionicons } from '@expo/vector-icons';
 import RootNavigation from './navigation/RootNavigation';
+import * as firebase from 'firebase';
+
+const firebaseConfig = {
+  apiKey: "AIzaSyCzPA1GDgmmJBOnHdIdNAeD9fdW95OO4G4",
+  authDomain: "baseline-330bb.firebaseapp.com",
+  databaseURL: "https://baseline-330bb.firebaseio.com",
+  projectId: "baseline-330bb",
+  storageBucket: "",
+  messagingSenderId: "1006643764024"
+};
+
 
 export default class App extends React.Component {
   state = {
     isLoadingComplete: false,
   };
+
+  componentWillMount() {
+    firebase.initializeApp(firebaseConfig);
+  }
 
   render() {
     if (!this.state.isLoadingComplete && !this.props.skipLoadingScreen) {
