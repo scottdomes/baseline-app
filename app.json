@@ -16,6 +16,9 @@
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "facebookScheme": "fb415054625594970",
+    "FacebookAppID": "415054625594970",
+    "FacebookDisplayName": "Baseline"
   }
 }

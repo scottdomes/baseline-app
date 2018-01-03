@@ -12,6 +12,7 @@ import { WebBrowser } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "react-native-elements";
 import { NavigationActions } from 'react-navigation'
+import { facebookLogin } from '../resources/SocialAuth';
 
 export default class LoginScreen extends React.Component {
   static navigationOptions = {
@@ -27,10 +28,15 @@ export default class LoginScreen extends React.Component {
     );
   }
 
+  handleFacebookLogin = () => {
+    facebookLogin();
+  }
+
   render() {
     return (
       <View style={styles.container}>
-        <Button style={styles.button} icon={{name: 'logo-facebook', type: 'ionicon'}} onPress={this.handleLogin} title="Login with Facebook" />
+              <Button style={styles.button} icon={{name: 'ios-mail', type: 'ionicon'}} onPress={this.handleLogin} title="Login with Email" />
+        <Button style={styles.button} icon={{name: 'logo-facebook', type: 'ionicon'}} onPress={this.handleFacebookLogin} title="Login with Facebook" />
         <Button style={styles.button} icon={{name: 'logo-google', type: 'ionicon'}} onPress={this.handleLogin} title="Login with Google" />
       </View>
     );
