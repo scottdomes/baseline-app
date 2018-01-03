@@ -9,12 +9,18 @@ import {
   View
 } from "react-native";
 import { WebBrowser } from "expo";
+import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
+import * as firebase from 'firebase';
 
 import { MonoText } from "../components/StyledText";
 export default class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
+  };
+
+  handleLogout = () => {
+    firebase.auth().signOut();
   };
 
   render() {
@@ -31,12 +37,15 @@ export default class HomeScreen extends React.Component {
           </View>
           <View style={styles.littleStatContainer}>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Up .2 from last week
+              <Ionicons size={20} name={`${os}arrow-round-up`} /> Up .2 from
+              last week
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-down`} /> Down .3 from last month
+              <Ionicons size={20} name={`${os}arrow-round-down`} /> Down .3 from
+              last month
             </Text>
           </View>
+          <Button onPress={this.handleLogout} title="Logout" />
         </ScrollView>
       </View>
     );
@@ -62,6 +71,6 @@ const styles = StyleSheet.create({
     marginBottom: 20
   },
   littleStat: {
-    textAlign: 'center'
+    textAlign: "center"
   }
 });

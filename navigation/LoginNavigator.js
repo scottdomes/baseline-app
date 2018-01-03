@@ -7,21 +7,14 @@ export default class LoginNavigator extends React.Component {
   componentDidMount() {
     // Listen for authentication state to change.
     firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
+      if (user == null) {
         this.props.navigation.dispatch(
           NavigationActions.navigate({
-            routeName: "Main",
-            action: NavigationActions.navigate({ routeName: "Main" })
+            routeName: "Login",
+            action: NavigationActions.navigate({ routeName: "Login" })
           })
         );
       }
-
-      this.props.navigation.dispatch(
-        NavigationActions.navigate({
-          routeName: "Login",
-          action: NavigationActions.navigate({ routeName: "Login" })
-        })
-      );
     });
   }
 
