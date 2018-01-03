@@ -12,7 +12,7 @@ import { WebBrowser } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 import { Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
-import { facebookLogin } from "../resources/SocialAuth";
+import { facebookLogin, googleLogin } from "../resources/SocialAuth";
 import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
@@ -64,7 +64,7 @@ export default class LoginScreen extends React.Component {
         <Button
           style={styles.button}
           icon={{ name: "logo-google", type: "ionicon" }}
-          onPress={this.handleLogin}
+          onPress={googleLogin}
           title="Login with Google"
         />
       </View>
