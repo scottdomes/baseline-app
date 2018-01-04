@@ -2,6 +2,7 @@ import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { Button } from "react-native-elements";
+import TagSelector from "../components/TagSelector";
 
 export default class LinksScreen extends React.Component {
   state = { selectedNumber: null };
@@ -39,6 +40,7 @@ export default class LinksScreen extends React.Component {
               />
             );
           })}
+        <TagSelector />
       </ScrollView>
     );
   }

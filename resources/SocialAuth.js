@@ -15,6 +15,7 @@ export async function facebookLogin() {
       .auth()
       .signInWithCredential(credential)
       .catch(error => {
+        console.log(error);
         // Handle Errors here.
       });
   }
@@ -31,15 +32,18 @@ export async function googleLogin() {
 
   if (type === "success") {
     // Build Firebase credential with the Facebook access token.
-    console.log(accessToken)
-    const credential = firebase.auth.GoogleAuthProvider.credential(null, accessToken);
+    console.log(accessToken);
+    const credential = firebase.auth.GoogleAuthProvider.credential(
+      null,
+      accessToken
+    );
 
     // Sign in with credential from the Facebook user.
     firebase
       .auth()
       .signInWithCredential(credential)
       .catch(error => {
-          console.log(credential, error)
+        console.log(credential, error);
         // Handle Errors here.
       });
   }
