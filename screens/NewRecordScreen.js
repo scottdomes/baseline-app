@@ -3,12 +3,19 @@ import { ScrollView, StyleSheet } from "react-native";
 import { ExpoLinksView } from "@expo/samples";
 import { Button } from "react-native-elements";
 import TagSelector from "../components/TagSelector";
+import * as firebase from "firebase";
 
 export default class LinksScreen extends React.Component {
-  state = { selectedNumber: null, tags: [] };
+  state = { selectedNumber: null, tags: [], user: null };
   static navigationOptions = {
     title: "New"
   };
+
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ user });
+    });
+  }
 
   handleSelectNumber(selectedNumber) {
     if (
@@ -22,8 +29,24 @@ export default class LinksScreen extends React.Component {
   }
 
   handleSelectTag = name => {
-    this.setState({ tags: [...this.state.tags, name] })
-  }
+    this.setState({ tags: [...this.state.tags, name] });
+  };
+
+  submitRecord = () => {
+    if (this.state.selectedNumber) {
+      const data = {
+        value: this.state.selectedNumber,
+        tags: this.state.tags,
+        user_id: this.state.user.uid,
+        timestamp: Date.now()
+      };
+      firebase
+        .database()
+        .ref("records/")
+        .push(data);
+      this.setState({ selectedNumber: null, tags: [] });
+    }
+  };
 
   render() {
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -44,8 +67,16 @@ export default class LinksScreen extends React.Component {
               />
             );
           })}
-        <TagSelector onSelectTag={this.handleSelectTag} selectedTags={this.state.tags} />
-        <Button onPress={this.submitRecord} title="Save" />
+        <TagSelector
+          user={this.state.user}
+          onSelectTag={this.handleSelectTag}
+          selectedTags={this.state.tags}
+        />
+        <Button
+          onPress={this.submitRecord}
+          title="Save"
+          style={{ marginTop: 20 }}
+        />
       </ScrollView>
     );
   }

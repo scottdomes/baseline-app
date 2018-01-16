@@ -6,9 +6,6 @@ import * as firebase from "firebase";
 export default class TagSelector extends React.Component {
   state = { newTag: "", tags: [] };
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ user });
-    });
     firebase
       .database()
       .ref("/tags")
@@ -30,7 +27,7 @@ export default class TagSelector extends React.Component {
     if (this.state.newTag) {
       const data = {
         name: this.state.newTag,
-        user_id: this.state.user.uid,
+        user_id: this.props.user.uid,
         timestamp: Date.now()
       };
       firebase
@@ -52,12 +49,12 @@ export default class TagSelector extends React.Component {
       <View>
         <View style={styles.tagContainer}>
           {this.state.tags.map(tag => {
-            const isSelected = selectedTags.indexOf(tag.name) > -1
+            const isSelected = selectedTags.indexOf(tag.name) > -1;
             return (
               <Button
                 style={styles.tag}
                 key={tag.id}
-                backgroundColor={isSelected ? 'purple' : 'grey'}
+                backgroundColor={isSelected ? "purple" : "grey"}
                 title={tag.name}
                 rounded
                 margin={0}
