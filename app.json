@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "baseline",
-    "description": "A very interesting project.",
+    "description": "Make happier decisions.",
     "slug": "baseline",
     "privacy": "public",
     "sdkVersion": "24.0.0",
@@ -15,7 +15,8 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.scottdomes.baseline"
     },
     "facebookScheme": "fb415054625594970",
     "FacebookAppID": "415054625594970",

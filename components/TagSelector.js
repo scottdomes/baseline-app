@@ -37,19 +37,35 @@ export default class TagSelector extends React.Component {
         .database()
         .ref("tags/")
         .push(data);
+      this.setState({ newTag: "" });
+      this.props.onSelectTag(this.state.newTag);
     }
   };
 
+  handleSelectTag(name) {
+    this.props.onSelectTag(name);
+  }
+
   render() {
+    const { selectedTags } = this.props;
     return (
       <View>
-        {this.state.tags.map(tag => {
-          return (
-            <View style={styles.tag}>
-              <Text>{tag.name}</Text>
-            </View>
-          );
-        })}
+        <View style={styles.tagContainer}>
+          {this.state.tags.map(tag => {
+            const isSelected = selectedTags.indexOf(tag.name) > -1
+            return (
+              <Button
+                style={styles.tag}
+                key={tag.id}
+                backgroundColor={isSelected ? 'purple' : 'grey'}
+                title={tag.name}
+                rounded
+                margin={0}
+                onPress={this.handleSelectTag.bind(this, tag.name)}
+              />
+            );
+          })}
+        </View>
         <FormLabel>Enter new tag</FormLabel>
         <FormInput
           onChangeText={this.handleNewTagChange}
@@ -75,8 +91,13 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   tag: {
-    backgroundColor: "purple",
-    borderRadius: 20,
-    color: "white",
+    margin: 0,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  tagContainer: {
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    flexDirection: "row"
   }
 });

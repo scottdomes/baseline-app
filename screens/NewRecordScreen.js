@@ -5,7 +5,7 @@ import { Button } from "react-native-elements";
 import TagSelector from "../components/TagSelector";
 
 export default class LinksScreen extends React.Component {
-  state = { selectedNumber: null };
+  state = { selectedNumber: null, tags: [] };
   static navigationOptions = {
     title: "New"
   };
@@ -19,6 +19,10 @@ export default class LinksScreen extends React.Component {
     } else {
       this.setState({ selectedNumber });
     }
+  }
+
+  handleSelectTag = name => {
+    this.setState({ tags: [...this.state.tags, name] })
   }
 
   render() {
@@ -40,7 +44,8 @@ export default class LinksScreen extends React.Component {
               />
             );
           })}
-        <TagSelector />
+        <TagSelector onSelectTag={this.handleSelectTag} selectedTags={this.state.tags} />
+        <Button onPress={this.submitRecord} title="Save" />
       </ScrollView>
     );
   }
