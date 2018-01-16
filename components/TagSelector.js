@@ -48,13 +48,14 @@ export default class TagSelector extends React.Component {
     return (
       <View>
         <View style={styles.tagContainer}>
-          {this.state.tags.map(tag => {
+          {this.state.tags.map((tag, i) => {
             const isSelected = selectedTags.indexOf(tag.name) > -1;
+            const color = this.props.colors[i % 10]
             return (
               <Button
                 style={styles.tag}
                 key={tag.id}
-                backgroundColor={isSelected ? "purple" : "grey"}
+                backgroundColor={isSelected ? color : "grey"}
                 title={tag.name}
                 rounded
                 margin={0}

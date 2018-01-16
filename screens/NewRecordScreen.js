@@ -4,7 +4,21 @@ import { ExpoLinksView } from "@expo/samples";
 import { Button } from "react-native-elements";
 import TagSelector from "../components/TagSelector";
 import * as firebase from "firebase";
-
+const COLORS = [
+  "#ffbd4b",
+  "#ffa350",
+  "#ff8a54",
+  "#ff7359",
+  "#ff5e5e",
+  "#ff637c",
+  "#ff6898",
+  "#ff6cb2",
+  "#ff71cb",
+  "#ff76e3",
+  "#ff7bf9",
+  "#f17fff",
+  "#de84ff",
+];
 export default class LinksScreen extends React.Component {
   state = { selectedNumber: null, tags: [], user: null };
   static navigationOptions = {
@@ -62,6 +76,7 @@ export default class LinksScreen extends React.Component {
               <Button
                 onPress={this.handleSelectNumber.bind(this, num)}
                 style={styles.button}
+                backgroundColor={COLORS[num - 1]}
                 key={num}
                 title={`${num}`}
               />
@@ -69,6 +84,7 @@ export default class LinksScreen extends React.Component {
           })}
         <TagSelector
           user={this.state.user}
+          colors={COLORS}
           onSelectTag={this.handleSelectTag}
           selectedTags={this.state.tags}
         />
