@@ -10,18 +10,33 @@ import {
 } from "react-native";
 import { WebBrowser } from "expo";
 import { Ionicons } from "@expo/vector-icons";
-import { Button } from "react-native-elements";
+import { Button, FormLabel, FormInput } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { facebookLogin, googleLogin } from "../resources/SocialAuth";
-import * as firebase from 'firebase';
+import * as firebase from "firebase";
 
 export default class LoginScreen extends React.Component {
+  state = { showLoginForm: false, email: "", password: "" };
   static navigationOptions = {
     header: null
   };
 
-  handleLogin = () => {
+  handleToggleLogin = () => {
+    this.setState({ showLoginForm: true });
+  };
 
+  handleEmailChange = email => {
+    this.setState({ email });
+  };
+
+  handlePasswordChange = password => {
+    this.setState({ password });
+  };
+
+  handleEmailLogin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(this.state.email, this.state.password);
   };
 
   handleFacebookLogin = () => {
@@ -29,12 +44,36 @@ export default class LoginScreen extends React.Component {
   };
 
   render() {
+    if (this.state.showLoginForm) {
+      return (
+        <View style={styles.container}>
+          <FormLabel>Email</FormLabel>
+          <FormInput
+            onChangeText={this.handleEmailChange}
+            placeholder="Your email..."
+            value={this.state.email}
+          />
+          <FormLabel>Password</FormLabel>
+          <FormInput
+            onChangeText={this.handlePasswordChange}
+            placeholder="Your password..."
+            value={this.state.password}
+          />
+          <Button
+            style={styles.button}
+            icon={{ name: "ios-mail", type: "ionicon" }}
+            onPress={this.handleEmailLogin}
+            title="Login"
+          />
+        </View>
+      );
+    }
     return (
       <View style={styles.container}>
         <Button
           style={styles.button}
           icon={{ name: "ios-mail", type: "ionicon" }}
-          onPress={this.handleLogin}
+          onPress={this.handleToggleLogin}
           title="Login with Email"
         />
         <Button
@@ -61,6 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "center"
   },
   button: {
-    marginBottom: 10
+    marginBottom: 10,
+    marginTop: 10
   }
 });
