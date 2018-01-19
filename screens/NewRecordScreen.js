@@ -17,7 +17,7 @@ const COLORS = [
   "#ff76e3",
   "#ff7bf9",
   "#f17fff",
-  "#de84ff",
+  "#de84ff"
 ];
 export default class LinksScreen extends React.Component {
   state = { selectedNumber: null, tags: [], user: null };
@@ -27,7 +27,9 @@ export default class LinksScreen extends React.Component {
 
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
-      this.setState({ user });
+      if (user) {
+        this.setState({ user });
+      }
     });
   }
 

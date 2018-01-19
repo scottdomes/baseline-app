@@ -20,26 +20,8 @@ export default class LoginScreen extends React.Component {
     header: null
   };
 
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user != null) {
-        this.props.navigation.dispatch(
-          NavigationActions.navigate({
-            routeName: "Main",
-            action: NavigationActions.navigate({ routeName: "Main" })
-          })
-        );
-      }
-    });
-  }
-
   handleLogin = () => {
-    this.props.navigation.dispatch(
-      NavigationActions.navigate({
-        routeName: "Main",
-        action: NavigationActions.navigate({ routeName: "Main" })
-      })
-    );
+
   };
 
   handleFacebookLogin = () => {

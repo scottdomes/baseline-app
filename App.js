@@ -3,6 +3,7 @@ import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 import RootNavigation from "./navigation/RootNavigation";
+import LoginScreen from "./screens/LoginScreen";
 import NotificationResource from "./resources/NotificationResource";
 import * as firebase from "firebase";
 
@@ -17,7 +18,8 @@ const firebaseConfig = {
 
 export default class App extends React.Component {
   state = {
-    isLoadingComplete: false
+    isLoadingComplete: false,
+    isLoggedIn: false
   };
 
   componentWillMount() {
@@ -26,6 +28,9 @@ export default class App extends React.Component {
 
   componentDidMount() {
     NotificationResource.schedule();
+    firebase.auth().onAuthStateChanged(user => {
+      this.setState({ isLoggedIn: Boolean(user) });
+    });
   }
 
   render() {
@@ -44,7 +49,7 @@ export default class App extends React.Component {
           {Platform.OS === "android" && (
             <View style={styles.statusBarUnderlay} />
           )}
-          <RootNavigation />
+          {this.state.isLoggedIn ? <RootNavigation /> : <LoginScreen />}
         </View>
       );
     }
