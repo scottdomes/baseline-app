@@ -39,6 +39,16 @@ export default class LoginScreen extends React.Component {
       .signInWithEmailAndPassword(this.state.email, this.state.password);
   };
 
+  handleSignup = () => {
+    if (!this.state.email || !this.state.password) {
+      this.setState({ isSigningUp: true });
+    } else {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(this.state.email, this.state.password);
+    }
+  };
+
   handleFacebookLogin = () => {
     facebookLogin();
   };
@@ -51,19 +61,30 @@ export default class LoginScreen extends React.Component {
           <FormInput
             onChangeText={this.handleEmailChange}
             placeholder="Your email..."
+            keyboardType="email-address"
             value={this.state.email}
           />
           <FormLabel>Password</FormLabel>
           <FormInput
             onChangeText={this.handlePasswordChange}
             placeholder="Your password..."
+            secureTextEntry
             value={this.state.password}
           />
+          {!this.state.isSigningUp && (
+            <View>
+              <Button
+                style={styles.button}
+                onPress={this.handleEmailLogin}
+                title="Login"
+              />
+              <Text>OR</Text>
+            </View>
+          )}
           <Button
             style={styles.button}
-            icon={{ name: "ios-mail", type: "ionicon" }}
-            onPress={this.handleEmailLogin}
-            title="Login"
+            onPress={this.handleSignup}
+            title="Sign Up"
           />
         </View>
       );
