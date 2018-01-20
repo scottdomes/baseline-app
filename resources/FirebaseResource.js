@@ -50,7 +50,6 @@ class FirebaseResource {
   }
 
   submitNewTag(name, userId) {
-    console.log(name, userId)
     const data = {
       name,
       timestamp: Date.now()

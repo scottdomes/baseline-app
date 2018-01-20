@@ -26,8 +26,9 @@ function rootReducer(state = initialState, action) {
       return Object.assign({}, state, { newRecord });
     case "SUBMIT_NEW_TAG":
       FirebaseResource.submitNewTag(action.payload, state.user.uid);
+      return state
     case "REMOVE_NEW_RECORD_TAG":
-      newRecord.tags.splice(tags.indexOf(action.payload), 1);
+      newRecord.tags.splice(newRecord.tags.indexOf(action.payload), 1);
       return Object.assign({}, state, { newRecord });
     case "ADD_NEW_RECORD_TAG":
       newRecord.tags.push(action.payload);

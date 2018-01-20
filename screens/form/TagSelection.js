@@ -28,15 +28,15 @@ class TagSelection extends React.Component {
 
   handleSelectTag(name) {
     if (this.props.selectedTags.indexOf(name) > -1) {
-      this.props.addNewRecordTag(name);
-    } else {
       this.props.removeNewRecordTag(name);
+    } else {
+      this.props.addNewRecordTag(name);
     }
   }
 
-  handleSubmitNewTag = name => {
-    this.props.submitNewTag(name);
-    this.props.addNewRecordTag(name);
+  handleSubmitNewTag = () => {
+    this.props.submitNewTag(this.state.newTag);
+    this.props.addNewRecordTag(this.state.newTag);
   };
 
   handleNewTagChange = newTag => {
@@ -56,6 +56,7 @@ class TagSelection extends React.Component {
 
   render() {
     const { tags, selectedTags } = this.props;
+    console.log(selectedTags)
     return (
       <ScrollView style={styles.container}>
         <View style={styles.tagContainer}>
