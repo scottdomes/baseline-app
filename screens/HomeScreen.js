@@ -9,12 +9,13 @@ import {
   View
 } from "react-native";
 import { WebBrowser } from "expo";
+import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
-import * as firebase from 'firebase';
-
+import * as firebase from "firebase";
 import { MonoText } from "../components/StyledText";
-export default class HomeScreen extends React.Component {
+
+class HomeScreen extends React.Component {
   static navigationOptions = {
     header: null
   };
@@ -24,6 +25,12 @@ export default class HomeScreen extends React.Component {
   };
 
   render() {
+    const { records } = this.props;
+    const values = records.map(record => record.value)
+    const avg =
+      values.length > 0 &&
+      values.reduce((x, y) => x + y) / values.length;
+
     const os = Platform.OS === "ios" ? "ios-" : "md-";
     return (
       <View style={styles.container}>
@@ -32,7 +39,7 @@ export default class HomeScreen extends React.Component {
           contentContainerStyle={styles.contentContainer}
         >
           <View style={styles.bigStatContainer}>
-            <Text style={styles.bigNumber}>7.2</Text>
+            {avg && <Text style={styles.bigNumber}>{avg}</Text>}
             <Text style={styles.bigStatLabel}>avg happiness</Text>
           </View>
           <View style={styles.littleStatContainer}>
@@ -51,6 +58,14 @@ export default class HomeScreen extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ records }) => {
+  return {
+    records
+  };
+};
+
+export default connect(mapStateToProps, null)(HomeScreen);
 
 const styles = StyleSheet.create({
   container: {
