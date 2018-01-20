@@ -2,10 +2,12 @@ import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import { connect } from "react-redux";
+import { login, logout, setRecords } from "../actions";
 import { Ionicons } from "@expo/vector-icons";
 import RootNavigation from "../navigation/RootNavigation";
 import LoginScreen from "../screens/LoginScreen";
 import NotificationResource from "../resources/NotificationResource";
+import FirebaseResource from "../resources/FirebaseResource";
 import * as firebase from "firebase";
 
 const firebaseConfig = {
@@ -17,7 +19,7 @@ const firebaseConfig = {
   messagingSenderId: "1006643764024"
 };
 
-export default class MainContainer extends React.Component {
+class MainContainer extends React.Component {
   state = {
     isLoadingComplete: false,
     isLoggedIn: false
@@ -28,10 +30,9 @@ export default class MainContainer extends React.Component {
   }
 
   componentDidMount() {
+    const { login, logout, setRecords } = this.props;
     NotificationResource.schedule();
-    firebase.auth().onAuthStateChanged(user => {
-      this.setState({ isLoggedIn: Boolean(user) });
-    });
+    FirebaseResource.setListeners(login, logout, setRecords);
   }
 
   render() {
@@ -50,7 +51,7 @@ export default class MainContainer extends React.Component {
           {Platform.OS === "android" && (
             <View style={styles.statusBarUnderlay} />
           )}
-          {this.state.isLoggedIn ? <RootNavigation /> : <LoginScreen />}
+          {Boolean(this.props.user) ? <RootNavigation /> : <LoginScreen />}
         </View>
       );
     }
@@ -82,6 +83,28 @@ export default class MainContainer extends React.Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+
+const mapDispatchToProps = dispatch => {
+  return {
+    login: user => {
+      dispatch(login(user));
+    },
+    setRecords: records => {
+      dispatch(setRecords(records));
+    },
+    logout: () => {
+      dispatch(logout());
+    }
+  };
+};
+
+const mapStateToProps = ({ user }) => {
+  return {
+    user
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MainContainer);
 
 const styles = StyleSheet.create({
   container: {
