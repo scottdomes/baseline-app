@@ -13,3 +13,8 @@ export const login = user => ({
 export const logout = () => ({
   type: "LOGOUT"
 });
+
+export const selectNewRecordValue = value => ({
+  type: "SELECT_NEW_RECORD_VALUE",
+  payload: value
+});

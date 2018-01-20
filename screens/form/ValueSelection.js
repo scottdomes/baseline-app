@@ -1,8 +1,11 @@
 import React from "react";
 import { ScrollView, StyleSheet } from "react-native";
 import { Button } from "react-native-elements";
+import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
 import * as firebase from "firebase";
+import { selectNewRecordValue } from "../../actions";
+
 const COLORS = [
   "#ffbd4b",
   "#ffa350",
@@ -18,7 +21,7 @@ const COLORS = [
   "#f17fff",
   "#de84ff"
 ];
-export default class ValueSelection extends React.Component {
+class ValueSelection extends React.Component {
   state = { selectedNumber: null };
   static navigationOptions = {
     title: "Value"
@@ -26,12 +29,12 @@ export default class ValueSelection extends React.Component {
 
   handleSelectNumber(selectedNumber) {
     if (
-      this.state.selectedNumber &&
-      this.state.selectedNumber === selectedNumber
+      this.props.selectedValue &&
+      this.props.selectedValue === selectedNumber
     ) {
-      this.setState({ selectedNumber: null });
+      this.props.selectNewRecordValue(null)
     } else {
-      this.setState({ selectedNumber });
+      this.props.selectNewRecordValue(selectedNumber)
     }
   }
 
@@ -45,13 +48,14 @@ export default class ValueSelection extends React.Component {
   };
 
   render() {
+    const { selectedValue } = this.props
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return (
       <ScrollView style={styles.container}>
         {arr
           .filter(
             num =>
-              !this.state.selectedNumber || this.state.selectedNumber === num
+              !selectedValue || selectedValue === num
           )
           .map(num => {
             return (
@@ -69,6 +73,24 @@ export default class ValueSelection extends React.Component {
     );
   }
 }
+
+const mapStateToProps = ({ newRecord }) => {
+  return {
+    selectedValue: newRecord.value
+  }
+}
+
+
+const mapDispatchToProps = dispatch => {
+  return {
+    selectNewRecordValue: val => {
+      dispatch(selectNewRecordValue(val));
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ValueSelection);
+
 
 const styles = StyleSheet.create({
   container: {
