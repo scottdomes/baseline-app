@@ -27,7 +27,7 @@ class TagSelection extends React.Component {
   };
 
   handleSelectTag(name) {
-    if (this.props.selectedTags.indexOf(name) > -1) {
+    if (this.props.newRecord.tags.indexOf(name) > -1) {
       this.props.removeNewRecordTag(name);
     } else {
       this.props.addNewRecordTag(name);
@@ -55,8 +55,8 @@ class TagSelection extends React.Component {
   };
 
   render() {
-    const { tags, selectedTags } = this.props;
-    console.log(selectedTags)
+    const { tags, newRecord } = this.props;
+    const selectedTags = newRecord.tags
     return (
       <ScrollView style={styles.container}>
         <View style={styles.tagContainer}>
@@ -94,7 +94,7 @@ class TagSelection extends React.Component {
 
 const mapStateToProps = ({ newRecord, tags }) => {
   return {
-    selectedTags: newRecord.tags,
+    newRecord,
     tags
   };
 };
