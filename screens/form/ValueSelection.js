@@ -80,7 +80,6 @@ const mapStateToProps = ({ newRecord }) => {
   }
 }
 
-
 const mapDispatchToProps = dispatch => {
   return {
     selectNewRecordValue: val => {

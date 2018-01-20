@@ -1,8 +1,9 @@
 import React from "react";
-import { ScrollView, StyleSheet } from "react-native";
-import { Button } from "react-native-elements";
+import { ScrollView, StyleSheet, View } from "react-native";
+import { FormLabel, FormInput, Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
-import TagSelector from "../../components/TagSelector";
+import { connect } from "react-redux";
+import { addNewRecordTag, removeNewRecordTag, submitNewTag } from "../../actions";
 
 const COLORS = [
   "#ffbd4b",
@@ -20,20 +21,26 @@ const COLORS = [
   "#de84ff"
 ];
 class TagSelection extends React.Component {
+  state = { newTag: "" };
   static navigationOptions = {
     title: "Tags"
   };
 
-  handleSelectTag = name => {
+  handleSelectTag(name) {
+    if (this.props.selectedTags.indexOf(name) > -1) {
+      this.props.addNewRecordTag(name);
+    } else {
+      this.props.removeNewRecordTag(name);
+    }
+  }
+
+  handleSubmitNewTag = name => {
+    this.props.submitNewTag(name);
     this.props.addNewRecordTag(name);
   };
 
-  handleDeselectTag = name => {
-    this.props.removeNewRecordTag(name);
-  };
-
-  handleSubmitNewTag = name => {
-    this.props.submitNewRecordTag(name);
+  handleNewTagChange = newTag => {
+    this.setState({ newTag });
   };
 
   next = () => {
@@ -48,14 +55,35 @@ class TagSelection extends React.Component {
   };
 
   render() {
+    const { tags, selectedTags } = this.props;
     return (
       <ScrollView style={styles.container}>
-        <TagSelector
-          colors={COLORS}
-          onSelectTag={this.handleSelectTag}
-          onRemoveTag={this.handleDeselectTag}
-          onSubmitTag={this.handleSubmitNewTag}
-          selectedTags={this.props.tags}
+        <View style={styles.tagContainer}>
+          {tags.map((tag, i) => {
+            const isSelected = selectedTags.indexOf(tag.name) > -1;
+            const color = COLORS[i % 10];
+            return (
+              <Button
+                style={styles.tag}
+                key={tag.id}
+                backgroundColor={isSelected ? color : "grey"}
+                title={tag.name}
+                rounded
+                margin={0}
+                onPress={this.handleSelectTag.bind(this, tag.name)}
+              />
+            );
+          })}
+        </View>
+        <FormLabel>Enter new tag</FormLabel>
+        <FormInput
+          onChangeText={this.handleNewTagChange}
+          value={this.state.newTag}
+        />
+        <Button
+          onPress={this.handleSubmitNewTag}
+          style={styles.button}
+          title="Submit"
         />
         <Button onPress={this.next} title="Next" style={{ marginTop: 20 }} />
       </ScrollView>
@@ -63,29 +91,28 @@ class TagSelection extends React.Component {
   }
 }
 
-
-const mapStateToProps = ({ newRecord }) => {
+const mapStateToProps = ({ newRecord, tags }) => {
   return {
-    selectedTags: newRecord.tags
-  }
-}
+    selectedTags: newRecord.tags,
+    tags
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
     addNewRecordTag: tag => {
-      dispatch(addNewRecordTag(val));
+      dispatch(addNewRecordTag(tag));
     },
-    removeNewRecordTag: tag  => {
-      dispatch(removeNewRecordTag(val));
+    removeNewRecordTag: tag => {
+      dispatch(removeNewRecordTag(tag));
     },
-    submitNewRecordTag: tag  => {
-      dispatch(submitNewRecordTag(val));
-    },
+    submitNewTag: tag => {
+      dispatch(submitNewTag(tag));
+    }
   };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TagSelection);
-
 
 const styles = StyleSheet.create({
   container: {
@@ -95,5 +122,15 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 10
+  },
+  tag: {
+    margin: 0,
+    marginTop: 5,
+    marginBottom: 5
+  },
+  tagContainer: {
+    flexWrap: "wrap",
+    alignItems: "flex-start",
+    flexDirection: "row"
   }
 });

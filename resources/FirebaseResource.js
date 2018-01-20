@@ -36,13 +36,29 @@ class FirebaseResource {
       .database()
       .ref(`${userId}/tags/`)
       .on("value", snapshot => {
-        const tags = Object.keys(snapshot.val()).map(key => {
-          const tag = snapshot.val()[key];
-          tag.id = key;
-          return tag;
-        });
-        setTags(tags);
+        if (snapshot.val() === null) {
+          setTags([]);
+        } else {
+          const tags = Object.keys(snapshot.val()).map(key => {
+            const tag = snapshot.val()[key];
+            tag.id = key;
+            return tag;
+          });
+          setTags(tags);
+        }
       });
+  }
+
+  submitNewTag(name, userId) {
+    console.log(name, userId)
+    const data = {
+      name,
+      timestamp: Date.now()
+    };
+    firebase
+      .database()
+      .ref(`${userId}/tags/`)
+      .push(data);
   }
 }
 

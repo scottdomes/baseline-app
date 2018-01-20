@@ -2,7 +2,7 @@ import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
 import { connect } from "react-redux";
-import { login, logout, setRecords } from "../actions";
+import { login, logout, setRecords, setTags } from "../actions";
 import { Ionicons } from "@expo/vector-icons";
 import RootNavigation from "../navigation/RootNavigation";
 import LoginScreen from "../screens/LoginScreen";
@@ -32,7 +32,7 @@ class MainContainer extends React.Component {
   componentDidMount() {
     const { login, logout, setRecords, setTags } = this.props;
     NotificationResource.schedule();
-    FirebaseResource.setListeners(login, logout, setRecords);
+    FirebaseResource.setListeners(login, logout, setRecords, setTags);
   }
 
   render() {
