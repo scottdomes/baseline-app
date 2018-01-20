@@ -1,9 +1,11 @@
 import * as firebase from "firebase";
 
 class FirebaseResource {
+  userId = null;
   setListeners(login, logout, setRecords, setTags) {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
+        this.userId = user.uid;
         this.setRecordListener(setRecords, user.uid);
         this.setTagListener(setTags, user.uid);
         login(user);
@@ -49,14 +51,14 @@ class FirebaseResource {
       });
   }
 
-  submitNewTag(name, userId) {
+  submitNewTag(name) {
     const data = {
       name,
       timestamp: Date.now()
     };
     firebase
       .database()
-      .ref(`${userId}/tags/`)
+      .ref(`${this.userId}/tags/`)
       .push(data);
   }
 }

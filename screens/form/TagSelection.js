@@ -3,7 +3,8 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { FormLabel, FormInput, Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
-import { addNewRecordTag, removeNewRecordTag, submitNewTag } from "../../actions";
+import { addNewRecordTag, removeNewRecordTag } from "../../actions";
+import FirebaseResource from "../../resources/FirebaseResource";
 
 const COLORS = [
   "#ffbd4b",
@@ -35,8 +36,9 @@ class TagSelection extends React.Component {
   }
 
   handleSubmitNewTag = () => {
-    this.props.submitNewTag(this.state.newTag);
+    FirebaseResource.submitNewTag(this.state.newTag);
     this.props.addNewRecordTag(this.state.newTag);
+    this.setState({ newTag: "" })
   };
 
   handleNewTagChange = newTag => {
@@ -56,7 +58,7 @@ class TagSelection extends React.Component {
 
   render() {
     const { tags, newRecord } = this.props;
-    const selectedTags = newRecord.tags
+    const selectedTags = newRecord.tags;
     return (
       <ScrollView style={styles.container}>
         <View style={styles.tagContainer}>
@@ -106,9 +108,6 @@ const mapDispatchToProps = dispatch => {
     },
     removeNewRecordTag: tag => {
       dispatch(removeNewRecordTag(tag));
-    },
-    submitNewTag: tag => {
-      dispatch(submitNewTag(tag));
     }
   };
 };

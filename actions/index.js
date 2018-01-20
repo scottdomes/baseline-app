@@ -35,9 +35,3 @@ export const removeNewRecordTag = value => ({
   type: "REMOVE_NEW_RECORD_TAG",
   payload: value
 });
-
-export const submitNewTag = value => ({
-  type: "SUBMIT_NEW_TAG",
-  payload: value
-});
-
