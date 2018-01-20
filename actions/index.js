@@ -21,6 +21,11 @@ export const logout = () => ({
   type: "LOGOUT"
 });
 
+export const resetRecord = () => ({
+  type: "RESET_RECORD"
+});
+
+
 export const selectNewRecordValue = value => ({
   type: "SELECT_NEW_RECORD_VALUE",
   payload: value

@@ -31,6 +31,8 @@ function rootReducer(state = initialState, action) {
       const newR = Object.assign({}, state.newRecord);
       newR.tags.push(action.payload);
       return Object.assign({}, state, { newRecord });
+    case "RESET_RECORD":
+      return Object.assign({}, state, { newRecord: { value: null, tags: [] } });
     default:
       return state;
   }

@@ -61,6 +61,19 @@ class FirebaseResource {
       .ref(`${this.userId}/tags/`)
       .push(data);
   }
+
+  submitRecord(record) {
+    const data = {
+      value: record.value,
+      type: 'happiness',
+      tags: record.tags,
+      timestamp: Date.now()
+    };
+    firebase
+      .database()
+      .ref(`${this.userId}/records/`)
+      .push(data);
+  }
 }
 
 const fb = new FirebaseResource();
