@@ -3,8 +3,13 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { FormLabel, FormInput, Button } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { connect } from "react-redux";
-import { addNewRecordTag, removeNewRecordTag, resetRecord } from "../../actions";
+import {
+  addNewRecordTag,
+  removeNewRecordTag,
+  resetRecord
+} from "../../actions";
 import FirebaseResource from "../../resources/FirebaseResource";
+import NotificationResource from "../../resources/NotificationResource";
 
 const COLORS = [
   "#ffbd4b",
@@ -38,7 +43,7 @@ class TagSelection extends React.Component {
   handleSubmitNewTag = () => {
     FirebaseResource.submitNewTag(this.state.newTag);
     this.props.addNewRecordTag(this.state.newTag);
-    this.setState({ newTag: "" })
+    this.setState({ newTag: "" });
   };
 
   handleNewTagChange = newTag => {
@@ -46,8 +51,10 @@ class TagSelection extends React.Component {
   };
 
   next = () => {
-    FirebaseResource.submitRecord(this.props.newRecord)
-    this.props.resetRecord()
+    FirebaseResource.submitRecord(this.props.newRecord);
+    NotificationResource.schedule();
+
+    this.props.resetRecord();
     const resetAction = NavigationActions.reset({
       index: 1,
       actions: [

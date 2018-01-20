@@ -6,7 +6,6 @@ import { login, logout, setRecords, setTags } from "../actions";
 import { Ionicons } from "@expo/vector-icons";
 import RootNavigation from "../navigation/RootNavigation";
 import LoginScreen from "../screens/LoginScreen";
-import NotificationResource from "../resources/NotificationResource";
 import FirebaseResource from "../resources/FirebaseResource";
 import * as firebase from "firebase";
 
@@ -31,7 +30,6 @@ class MainContainer extends React.Component {
 
   componentDidMount() {
     const { login, logout, setRecords, setTags } = this.props;
-    NotificationResource.schedule();
     FirebaseResource.setListeners(login, logout, setRecords, setTags);
   }
 
