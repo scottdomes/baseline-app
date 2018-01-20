@@ -54,11 +54,12 @@ export default class LinksScreen extends React.Component {
         value: this.state.selectedNumber,
         tags: this.state.tags,
         user_id: this.state.user.uid,
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        type: 'happiness'
       };
       firebase
         .database()
-        .ref("records/")
+        .ref(`${this.state.user.uid`}/records/`)
         .push(data);
       this.setState({ selectedNumber: null, tags: [] });
     }

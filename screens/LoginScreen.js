@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 import {
   Image,
   Platform,
@@ -7,16 +7,16 @@ import {
   Text,
   TouchableOpacity,
   View
-} from "react-native";
-import { WebBrowser } from "expo";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, FormLabel, FormInput } from "react-native-elements";
-import { NavigationActions } from "react-navigation";
-import { facebookLogin, googleLogin } from "../resources/SocialAuth";
-import * as firebase from "firebase";
+} from 'react-native';
+import { WebBrowser } from 'expo';
+import { Ionicons } from '@expo/vector-icons';
+import { Button, FormLabel, FormInput } from 'react-native-elements';
+import { NavigationActions } from 'react-navigation';
+import { facebookLogin, googleLogin } from '../resources/SocialAuth';
+import * as firebase from 'firebase';
 
 export default class LoginScreen extends React.Component {
-  state = { showLoginForm: false, email: "", password: "" };
+  state = { showLoginForm: false, email: '', password: '' };
   static navigationOptions = {
     header: null
   };
@@ -37,6 +37,12 @@ export default class LoginScreen extends React.Component {
     firebase
       .auth()
       .signInWithEmailAndPassword(this.state.email, this.state.password);
+  };
+
+  handleAdmin = () => {
+    firebase
+      .auth()
+      .signInWithEmailAndPassword('scottdomes+1@gmail.com', 'password');
   };
 
   handleSignup = () => {
@@ -86,6 +92,11 @@ export default class LoginScreen extends React.Component {
             onPress={this.handleSignup}
             title="Sign Up"
           />
+          <Button
+            style={styles.button}
+            onPress={this.handleAdmin}
+            title="Admin Login"
+          />
         </View>
       );
     }
@@ -93,19 +104,19 @@ export default class LoginScreen extends React.Component {
       <View style={styles.container}>
         <Button
           style={styles.button}
-          icon={{ name: "ios-mail", type: "ionicon" }}
+          icon={{ name: 'ios-mail', type: 'ionicon' }}
           onPress={this.handleToggleLogin}
           title="Login with Email"
         />
         <Button
           style={styles.button}
-          icon={{ name: "logo-facebook", type: "ionicon" }}
+          icon={{ name: 'logo-facebook', type: 'ionicon' }}
           onPress={this.handleFacebookLogin}
           title="Login with Facebook"
         />
         <Button
           style={styles.button}
-          icon={{ name: "logo-google", type: "ionicon" }}
+          icon={{ name: 'logo-google', type: 'ionicon' }}
           onPress={googleLogin}
           title="Login with Google"
         />
@@ -117,8 +128,8 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    justifyContent: 'center'
   },
   button: {
     marginBottom: 10,

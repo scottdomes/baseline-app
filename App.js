@@ -1,6 +1,7 @@
 import React from "react";
 import { Platform, StatusBar, StyleSheet, View } from "react-native";
 import { AppLoading, Asset, Font } from "expo";
+import { Provider } from "react-redux";
 import { Ionicons } from "@expo/vector-icons";
 import RootNavigation from "./navigation/RootNavigation";
 import LoginScreen from "./screens/LoginScreen";
@@ -44,13 +45,15 @@ export default class App extends React.Component {
       );
     } else {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          {Platform.OS === "android" && (
-            <View style={styles.statusBarUnderlay} />
-          )}
-          {this.state.isLoggedIn ? <RootNavigation /> : <LoginScreen />}
-        </View>
+        <Provider store={store}>
+          <View style={styles.container}>
+            {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+            {Platform.OS === "android" && (
+              <View style={styles.statusBarUnderlay} />
+            )}
+            {this.state.isLoggedIn ? <RootNavigation /> : <LoginScreen />}
+          </View>
+        </Provider>
       );
     }
   }
