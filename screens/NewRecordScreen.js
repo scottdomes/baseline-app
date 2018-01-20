@@ -26,6 +26,7 @@ export default class LinksScreen extends React.Component {
   };
 
   componentDidMount() {
+    // blah
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         this.setState({ user });
