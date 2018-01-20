@@ -49,6 +49,8 @@ export default TabNavigator(
           />
         );
       },
+      header: null
+
     }),
     tabBarComponent: TabBarBottom,
     tabBarPosition: 'bottom',

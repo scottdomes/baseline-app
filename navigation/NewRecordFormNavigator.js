@@ -19,7 +19,9 @@ export default StackNavigator(
   },
   {
     navigationOptions: () => ({
-      header: null
+      headerTitleStyle: {
+        fontWeight: "normal"
+      }
     })
   }
 );

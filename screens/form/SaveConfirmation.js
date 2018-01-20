@@ -1,22 +1,19 @@
 import React from "react";
-import { ScrollView, StyleSheet, Text } from "react-native";
 import { NavigationActions } from "react-navigation";
+import { Button } from "react-native-elements";
 
 export default class SaveConfirmation extends React.Component {
+  done = () => {
+    const navigateAction = NavigationActions.navigate({
+      routeName: "ValueSelection"
+    });
+
+    this.props.navigation.dispatch(navigateAction);
+  };
+
   render() {
     return (
-      <Text>Done</Text>
+      <Button onPress={this.done} title="Done" style={{ marginTop: 20 }} />
     );
   }
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    paddingTop: 15,
-    backgroundColor: "#fff"
-  },
-  button: {
-    marginTop: 10
-  }
-});

@@ -30,11 +30,14 @@ export default class TagSelection extends React.Component {
   };
 
   next = () => {
-    const navigateAction = NavigationActions.navigate({
-      routeName: "SaveConfirmation"
+    const resetAction = NavigationActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: "ValueSelection" }),
+        NavigationActions.navigate({ routeName: "SaveConfirmation" })
+      ]
     });
-
-    this.props.navigation.dispatch(navigateAction);
+    this.props.navigation.dispatch(resetAction);
   };
 
   render() {
