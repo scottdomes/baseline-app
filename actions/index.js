@@ -5,6 +5,14 @@ export const setRecords = records => {
   };
 };
 
+export const setTags = tags => {
+  return {
+    type: "SET_TAGS",
+    payload: tags
+  };
+};
+
+
 export const login = user => ({
   type: "LOGIN",
   payload: user

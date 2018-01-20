@@ -19,14 +19,21 @@ const COLORS = [
   "#f17fff",
   "#de84ff"
 ];
-export default class TagSelection extends React.Component {
-  state = { tags: [] };
+class TagSelection extends React.Component {
   static navigationOptions = {
     title: "Tags"
   };
 
   handleSelectTag = name => {
-    this.setState({ tags: [...this.state.tags, name] });
+    this.props.addNewRecordTag(name);
+  };
+
+  handleDeselectTag = name => {
+    this.props.removeNewRecordTag(name);
+  };
+
+  handleSubmitNewTag = name => {
+    this.props.submitNewRecordTag(name);
   };
 
   next = () => {
@@ -41,19 +48,44 @@ export default class TagSelection extends React.Component {
   };
 
   render() {
-    const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return (
       <ScrollView style={styles.container}>
         <TagSelector
           colors={COLORS}
           onSelectTag={this.handleSelectTag}
-          selectedTags={this.state.tags}
+          onRemoveTag={this.handleDeselectTag}
+          onSubmitTag={this.handleSubmitNewTag}
+          selectedTags={this.props.tags}
         />
         <Button onPress={this.next} title="Next" style={{ marginTop: 20 }} />
       </ScrollView>
     );
   }
 }
+
+
+const mapStateToProps = ({ newRecord }) => {
+  return {
+    selectedTags: newRecord.tags
+  }
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addNewRecordTag: tag => {
+      dispatch(addNewRecordTag(val));
+    },
+    removeNewRecordTag: tag  => {
+      dispatch(removeNewRecordTag(val));
+    },
+    submitNewRecordTag: tag  => {
+      dispatch(submitNewRecordTag(val));
+    },
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(TagSelection);
+
 
 const styles = StyleSheet.create({
   container: {

@@ -30,7 +30,7 @@ class MainContainer extends React.Component {
   }
 
   componentDidMount() {
-    const { login, logout, setRecords } = this.props;
+    const { login, logout, setRecords, setTags } = this.props;
     NotificationResource.schedule();
     FirebaseResource.setListeners(login, logout, setRecords);
   }
@@ -94,6 +94,9 @@ const mapDispatchToProps = dispatch => {
     },
     logout: () => {
       dispatch(logout());
+    },
+    setTags: tags => {
+      dispatch(setTags(tags));
     }
   };
 };
