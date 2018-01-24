@@ -23,6 +23,19 @@ const COLORS = [
   "#f17fff",
   "#de84ff"
 ];
+
+const moods = [
+  "Unbelievable",
+  "Amazing",
+  "Fantastic",
+  "Great",
+  "Good",
+  "Fine",
+  "Subpar",
+  "Bad",
+  "Terrible",
+  "Horrendous",
+].reverse()
 class ValueSelection extends React.Component {
   state = { selectedNumber: null, value: 5 };
   static navigationOptions = {
@@ -67,7 +80,8 @@ class ValueSelection extends React.Component {
             height: Dimensions.get("window").height
           }}
         >
-          <Text>{this.state.value}</Text>
+          <Text style={styles.heading}>{this.state.value}</Text>
+          <Text style={styles.heading}>{moods[this.state.value - 1]}</Text>
           <View style={{ justifyContent: "center", flex: 1 }}>
             <Slider
               minimumValue={0}
@@ -77,6 +91,7 @@ class ValueSelection extends React.Component {
               thumbTouchSize={{ width: 100, height: 100 }}
               thumbTintColor={"white"}
               orientation="vertical"
+              style={{ position: 'relative', top: -50 }}
               onValueChange={this.handleValueChange}
             />
             <Button
@@ -157,5 +172,12 @@ const styles = StyleSheet.create({
   },
   scrollContainer: {
     height: 1000
+  },
+  heading: {
+    fontSize: 40,
+    textAlign: 'center',
+    backgroundColor: 'transparent',
+    color: 'white',
+    marginTop: 40
   }
 });
