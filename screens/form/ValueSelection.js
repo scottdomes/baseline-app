@@ -29,16 +29,9 @@ class ValueSelection extends React.Component {
     title: "Value"
   };
 
-  handleSelectNumber(selectedNumber) {
-    if (
-      this.props.selectedValue &&
-      this.props.selectedValue === selectedNumber
-    ) {
-      this.props.selectNewRecordValue(null);
-    } else {
-      this.props.selectNewRecordValue(selectedNumber);
-    }
-  }
+  handleSelectNumber = debounce(selectedNumber => {
+    this.props.selectNewRecordValue(selectedNumber);
+  }, 200);
 
   next = () => {
     console.log(this.props.navigation);
@@ -50,11 +43,12 @@ class ValueSelection extends React.Component {
   };
 
   handleValueChange = debounce(value => {
-    console.log(value)
-    this.setState({ value: 10 - Math.ceil(value * 10) })
+    const adjusted = 10 - Math.ceil(value * 10);
+    this.setState({ value: adjusted });
     this.scroll.scrollTo({
       y: value * (2000 - Dimensions.get("window").height)
     });
+    this.handleSelectNumber(adjusted);
   }, 0);
 
   render() {
@@ -70,16 +64,25 @@ class ValueSelection extends React.Component {
             zIndex: 3,
             right: 0,
             bottom: 0,
-            height: Dimensions.get("window").height,
+            height: Dimensions.get("window").height
           }}
         >
           <Text>{this.state.value}</Text>
           <View style={{ justifyContent: "center", flex: 1 }}>
             <Slider
               minimumValue={0}
-              maximumValue={.9}
+              maximumValue={0.9}
+              value={.4}
+              thumbStyle={{ width: 100, height: 100, borderRadius: 100 }}
+              thumbTouchSize={{ width: 100, height: 100 }}
+              thumbTintColor={"white"}
               orientation="vertical"
               onValueChange={this.handleValueChange}
+            />
+            <Button
+              onPress={this.next}
+              title="Next"
+              style={{ position: 'absolute', bottom: 0, right: 0 }}
             />
           </View>
         </View>
@@ -121,7 +124,7 @@ class ValueSelection extends React.Component {
     //           />
     //         );
     //       })}
-    //     <Button onPress={this.next} title="Next" style={{ marginTop: 20 }} />
+    //
     //   </ScrollView>
     // );
   }
