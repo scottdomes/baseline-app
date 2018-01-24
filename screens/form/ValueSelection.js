@@ -64,7 +64,7 @@ class ValueSelection extends React.Component {
         <View
           style={{
             position: "absolute",
-            top: 0,
+            top: -200,
             left: 0,
             zIndex: 3,
             right: 0,
@@ -83,7 +83,7 @@ class ValueSelection extends React.Component {
           ref={el => (this.scroll = el)}
           style={styles.scrollContainer}
         >
-          <View style={{ height: 1000 }}>
+          <View>
             <LinearGradient
               colors={['#FF7C00', '#C751D4', '#2887FF']}
               style={{
