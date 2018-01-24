@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, View, Dimensions } from "react-native";
+import { ScrollView, StyleSheet, View, Dimensions, Text } from "react-native";
 import { Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
@@ -24,7 +24,7 @@ const COLORS = [
   "#de84ff"
 ];
 class ValueSelection extends React.Component {
-  state = { selectedNumber: null };
+  state = { selectedNumber: null, value: 5 };
   static navigationOptions = {
     title: "Value"
   };
@@ -50,11 +50,12 @@ class ValueSelection extends React.Component {
   };
 
   handleValueChange = debounce(value => {
-    console.log(value);
+    console.log(value)
+    this.setState({ value: 10 - Math.ceil(value * 10) })
     this.scroll.scrollTo({
       y: value * (2000 - Dimensions.get("window").height)
     });
-  });
+  }, 200);
 
   render() {
     const { selectedValue } = this.props;
@@ -70,15 +71,17 @@ class ValueSelection extends React.Component {
             right: 0,
             bottom: 0,
             height: Dimensions.get("window").height,
-            justifyContent: "center"
           }}
         >
-          <Slider
-            minimumValue={0}
-            maximumValue={1}
-            orientation="vertical"
-            onValueChange={this.handleValueChange}
-          />
+          <Text>{this.state.value}</Text>
+          <View style={{ justifyContent: "center", flex: 1 }}>
+            <Slider
+              minimumValue={0}
+              maximumValue={.9}
+              orientation="vertical"
+              onValueChange={this.handleValueChange}
+            />
+          </View>
         </View>
         <ScrollView
           ref={el => (this.scroll = el)}
@@ -86,7 +89,7 @@ class ValueSelection extends React.Component {
         >
           <View>
             <LinearGradient
-              colors={['#FF7C00', '#C751D4', '#2887FF']}
+              colors={["#FF7C00", "#C751D4", "#2887FF"]}
               style={{
                 position: "absolute",
                 left: 0,
