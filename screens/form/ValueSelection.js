@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View, Dimensions } from "react-native";
 import { Button, Slider } from "react-native-elements";
 import { connect } from "react-redux";
 import { NavigationActions } from "react-navigation";
@@ -51,9 +51,11 @@ class ValueSelection extends React.Component {
 
   handleValueChange = debounce(value => {
     console.log(value);
-    this.scroll.scrollTo({ y: value * 1000 });
+    this.scroll.scrollTo({
+      y: value * (2000 - Dimensions.get("window").height)
+    });
   });
-  
+
   render() {
     const { selectedValue } = this.props;
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -73,6 +75,7 @@ class ValueSelection extends React.Component {
           <Slider
             minimumValue={0}
             maximumValue={1}
+            orientation="vertical"
             onValueChange={this.handleValueChange}
           />
         </View>
@@ -82,14 +85,14 @@ class ValueSelection extends React.Component {
         >
           <View style={{ height: 1000 }}>
             <LinearGradient
-              colors={COLORS}
+              colors={['#FF7C00', '#C751D4', '#2887FF']}
               style={{
                 position: "absolute",
                 left: 0,
                 right: 0,
                 top: 0,
                 bottom: 0,
-                height: 1000
+                height: 2000
               }}
             />
           </View>
