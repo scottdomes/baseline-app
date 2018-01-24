@@ -55,7 +55,7 @@ class ValueSelection extends React.Component {
     this.scroll.scrollTo({
       y: value * (2000 - Dimensions.get("window").height)
     });
-  }, 200);
+  }, 0);
 
   render() {
     const { selectedValue } = this.props;
