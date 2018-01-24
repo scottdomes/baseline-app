@@ -6,6 +6,7 @@ import { NavigationActions } from "react-navigation";
 import * as firebase from "firebase";
 import { selectNewRecordValue } from "../../actions";
 import { LinearGradient } from "expo";
+var debounce = require("lodash.debounce");
 
 const COLORS = [
   "#ffbd4b",
@@ -48,11 +49,11 @@ class ValueSelection extends React.Component {
     this.props.navigation.dispatch(navigateAction);
   };
 
-  handleValueChange = value => {
+  handleValueChange = debounce(value => {
     console.log(value);
     this.scroll.scrollTo({ y: value * 1000 });
-  };
-
+  });
+  
   render() {
     const { selectedValue } = this.props;
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
