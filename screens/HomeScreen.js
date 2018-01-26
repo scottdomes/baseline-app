@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-import { WebBrowser } from "expo";
+import { WebBrowser, LinearGradient } from "expo";
 import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
@@ -66,6 +66,17 @@ class HomeScreen extends React.Component {
     const os = Platform.OS === "ios" ? "ios-" : "md-";
     return (
       <View style={styles.container}>
+        <LinearGradient
+          colors={["#FF7C00", "#C751D4", "#2887FF"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            flex: 1
+          }}
+        />
         <ScrollView
           style={styles.container}
           contentContainerStyle={styles.contentContainer}
@@ -111,22 +122,29 @@ export default connect(mapStateToProps, null)(HomeScreen);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff"
+    position: "relative"
   },
   bigStatContainer: {
-    paddingTop: 50
+    paddingTop: 50,
+    backgroundColor: "transparent"
+  },
+  littleStatContainer: {
+    backgroundColor: "transparent"
   },
   bigNumber: {
     fontSize: 150,
-    textAlign: "center"
+    textAlign: "center",
+    color: "white"
   },
   bigStatLabel: {
     fontSize: 20,
     textAlign: "center",
     marginTop: -20,
-    marginBottom: 20
+    marginBottom: 20,
+    color: "white"
   },
   littleStat: {
-    textAlign: "center"
+    textAlign: "center",
+    color: "white"
   }
 });
