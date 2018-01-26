@@ -16,7 +16,7 @@ import * as firebase from "firebase";
 import { MonoText } from "../components/StyledText";
 
 class HomeScreen extends React.Component {
-  state = { tagTree: {}, weekAverage: 0 };
+  state = { tagTree: {}, weekAverage: 0, pastWeekAverage: 0 };
   static navigationOptions = {
     header: null
   };
@@ -35,22 +35,35 @@ class HomeScreen extends React.Component {
       next.tags.length !== this.props.tags.length
     ) {
       this.organizeTags(next.records, next.tags);
-      this.calculateAverages(next.records)
+      this.calculateAverages(next.records);
     }
   }
 
   calculateAverages(records) {
-    let weekAverage = 0
+    let weekAverage = 0;
+    let pastWeekAverage = 0;
     const today = new Date();
-    const lastWeek = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 7);
-    console.log(lastWeek, 'last')
+    const lastWeek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 7
+    );
+    const lastLastWeek = new Date(
+      today.getFullYear(),
+      today.getMonth(),
+      today.getDate() - 7
+    );
+    console.log(lastWeek, "last");
     records.forEach(record => {
-      const inPastWeek = new Date(record.timestamp) > lastWeek
+      const inPastWeek = new Date(record.timestamp) > lastWeek;
+      const inPastPastWeek = new Date(record.timestamp) > lastLastWeek;
       if (inPastWeek) {
-        weekAverage = (weekAverage + record.value) / 2
+        weekAverage = (weekAverage + record.value) / 2;
+      } else if (inPastPastWeek) {
+        pastWeekAverage = (weekAverage + record.value) / 2;
       }
-    })
-    this.setState({ weekAverage })
+    });
+    this.setState({ weekAverage, pastWeekAverage });
   }
 
   organizeTags = (records, tags) => {
@@ -109,12 +122,14 @@ class HomeScreen extends React.Component {
             <Text style={styles.bigStatLabel}>avg happiness</Text>
           </View>
           <View style={styles.littleStatContainer}>
-          <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Average this week: {this.state.weekAverage.toFixed(1)}
+            <Text style={styles.littleStat}>
+              <Ionicons size={20} name={`${os}arrow-round-up`} /> Average this
+              week: {this.state.weekAverage.toFixed(1)}
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Up .2 from
-              last week
+              <Ionicons size={20} name={`${os}arrow-round-up`} /> Changed{" "}
+              {(this.state.weekAverage - this.state.pastWeekAverage).toFixed(1)}{" "}
+              from last week
             </Text>
             <Text style={styles.littleStat}>
               <Ionicons size={20} name={`${os}arrow-round-down`} /> Down .3 from
