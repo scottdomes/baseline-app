@@ -10,7 +10,7 @@ import {
 } from "react-native";
 import { WebBrowser, LinearGradient } from "expo";
 import { connect } from "react-redux";
-import { Button } from "react-native-elements";
+import { Button, List, ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
 import { MonoText } from "../components/StyledText";
@@ -46,7 +46,7 @@ class HomeScreen extends React.Component {
         // If they have not deleted the tag
         if (tagNames.indexOf(tag) > -1) {
           if (tree[tag]) {
-            tree[tag] = (tree[tag] + record.value) / 2;
+            tree[tag] = ((tree[tag] + record.value) / 2);
           } else {
             tree[tag] = record.value;
           }
@@ -103,16 +103,17 @@ class HomeScreen extends React.Component {
               last month
             </Text>
           </View>
-          <Button onPress={this.handleLogout} title="Logout" />
           {this.sortTree(this.state.tagTree).map(tag => {
             return (
-              <View style={styles.tagContainer} key={tag.name}>
-                <Text style={[styles.whiteText, styles.centered]}>
-                  {tag.value} {tag.name}
-                </Text>
-              </View>
+              <List key={tag.name}>
+                <ListItem
+                  hideChevron
+                  title={`${tag.value.toFixed(1)}     ${tag.name}`}
+                />
+              </List>
             );
           })}
+          <Button onPress={this.handleLogout} title="Logout" />
         </ScrollView>
       </View>
     );
@@ -160,7 +161,6 @@ const styles = StyleSheet.create({
     color: "white"
   },
   tagContainer: {
-    marginTop: 20,
     backgroundColor: "transparent"
   },
   centered: {
