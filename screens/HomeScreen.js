@@ -46,7 +46,7 @@ class HomeScreen extends React.Component {
         // If they have not deleted the tag
         if (tagNames.indexOf(tag) > -1) {
           if (tree[tag]) {
-            tree[tag] = ((tree[tag] + record.value) / 2);
+            tree[tag] = (tree[tag] + record.value) / 2;
           } else {
             tree[tag] = record.value;
           }
@@ -103,16 +103,18 @@ class HomeScreen extends React.Component {
               last month
             </Text>
           </View>
-          {this.sortTree(this.state.tagTree).map(tag => {
-            return (
-              <List key={tag.name}>
+          <List>
+            <ListItem title={"Your tags"} hideChevron />
+            {this.sortTree(this.state.tagTree).map(tag => {
+              return (
                 <ListItem
-                  hideChevron
+                  key={tag.name}
                   title={`${tag.value.toFixed(1)}     ${tag.name}`}
                 />
-              </List>
-            );
-          })}
+              );
+            })}
+          </List>
+
           <Button onPress={this.handleLogout} title="Logout" />
         </ScrollView>
       </View>
