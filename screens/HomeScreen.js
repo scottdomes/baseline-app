@@ -56,6 +56,14 @@ class HomeScreen extends React.Component {
     this.setState({ tagTree: tree });
   };
 
+  sortTree = tagTree => {
+    const array = Object.keys(tagTree).map(name => {
+      const value = tagTree[name];
+      return { name, value };
+    });
+    return array.sort((a, b) => b.value - a.value);
+  };
+
   render() {
     const { records, tags } = this.props;
     const values = records.map(record => record.value);
@@ -96,12 +104,13 @@ class HomeScreen extends React.Component {
             </Text>
           </View>
           <Button onPress={this.handleLogout} title="Logout" />
-          {Object.keys(this.state.tagTree).map(key => {
-            const val = this.state.tagTree[key];
+          {this.sortTree(this.state.tagTree).map(tag => {
             return (
-              <Text key={key}>
-                {key} {val}
-              </Text>
+              <View style={styles.tagContainer} key={tag.name}>
+                <Text style={[styles.whiteText, styles.centered]}>
+                  {tag.value} {tag.name}
+                </Text>
+              </View>
             );
           })}
         </ScrollView>
@@ -123,6 +132,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     position: "relative"
+  },
+  whiteText: {
+    color: "white"
   },
   bigStatContainer: {
     paddingTop: 50,
@@ -146,5 +158,12 @@ const styles = StyleSheet.create({
   littleStat: {
     textAlign: "center",
     color: "white"
+  },
+  tagContainer: {
+    marginTop: 20,
+    backgroundColor: "transparent"
+  },
+  centered: {
+    textAlign: "center"
   }
 });
