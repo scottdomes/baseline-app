@@ -16,7 +16,13 @@ import * as firebase from "firebase";
 import { MonoText } from "../components/StyledText";
 
 class HomeScreen extends React.Component {
-  state = { tagTree: {}, weekAverage: 0, pastWeekAverage: 0 };
+  state = {
+    tagTree: {},
+    weekChange: 0,
+    monthChange: 0,
+    weekAverage: 0,
+    monthAverage: 0
+  };
   static navigationOptions = {
     header: null
   };
@@ -42,6 +48,8 @@ class HomeScreen extends React.Component {
   calculateAverages(records) {
     let weekAverage = 0;
     let pastWeekAverage = 0;
+    let monthAverage = 0;
+    let pastMonthAverage = 0;
     const today = new Date();
     const lastWeek = new Date(
       today.getFullYear(),
@@ -51,19 +59,40 @@ class HomeScreen extends React.Component {
     const lastLastWeek = new Date(
       today.getFullYear(),
       today.getMonth(),
-      today.getDate() - 7
+      today.getDate() - 14
     );
-    console.log(lastWeek, "last");
+    const lastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() - 1,
+      today.getDate()
+    );
+    const lastLastMonth = new Date(
+      today.getFullYear(),
+      today.getMonth() - 2,
+      today.getDate()
+    );
     records.forEach(record => {
       const inPastWeek = new Date(record.timestamp) > lastWeek;
       const inPastPastWeek = new Date(record.timestamp) > lastLastWeek;
+      const inPastMonth = new Date(record.timestamp) > lastMonth;
+      const inPreviousMonth = new Date(record.timestamp) > lastLastMonth;
       if (inPastWeek) {
         weekAverage = (weekAverage + record.value) / 2;
       } else if (inPastPastWeek) {
-        pastWeekAverage = (weekAverage + record.value) / 2;
+        pastWeekAverage = (pastWeekAverage + record.value) / 2;
+      }
+      if (inPastMonth) {
+        monthAverage = (monthAverage + record.value) / 2;
+      } else if (inPastPastWeek) {
+        pastMonthAverage = (pastMonthAverage + record.value) / 2;
       }
     });
-    this.setState({ weekAverage, pastWeekAverage });
+    this.setState({
+      weekAverage,
+      monthAverage,
+      weekChange: weekAverage - pastWeekAverage,
+      monthChange: monthAverage - pastMonthAverage
+    });
   }
 
   organizeTags = (records, tags) => {
@@ -128,12 +157,17 @@ class HomeScreen extends React.Component {
             </Text>
             <Text style={styles.littleStat}>
               <Ionicons size={20} name={`${os}arrow-round-up`} /> Changed{" "}
-              {(this.state.weekAverage - this.state.pastWeekAverage).toFixed(1)}{" "}
+              {(this.state.weekChange).toFixed(1)}{" "}
               from last week
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-down`} /> Down .3 from
-              last month
+              <Ionicons size={20} name={`${os}arrow-round-up`} /> Average this
+              month: {this.state.monthAverage.toFixed(1)}
+            </Text>
+            <Text style={styles.littleStat}>
+              <Ionicons size={20} name={`${os}arrow-round-up`} /> Changed{" "}
+              {(this.state.monthChange).toFixed(1)}{" "}
+              from last month
             </Text>
           </View>
           <List>
