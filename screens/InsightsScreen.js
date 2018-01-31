@@ -45,6 +45,10 @@ class InsightsScreen extends React.Component {
     }
   }
 
+  handleSelectAll() {
+    this.setState({ selectedTags: [] });
+  }
+
   filterRecord = record => {
     if (this.state.selectedTags.length === 0) {
       return true;
@@ -64,21 +68,40 @@ class InsightsScreen extends React.Component {
     if (records.length === 0) {
       return null;
     }
+    const data = records.filter(this.filterRecord);
     return (
       <View>
-        <VictoryChart theme={VictoryTheme.material}>
-          <VictoryLine
-            style={{
-              data: { stroke: "#c43a31" },
-              parent: { border: "1px solid #ccc" }
-            }}
-            domain={{ y: [1, 10] }}
-            data={records.filter(this.filterRecord).map((record, i) => {
-              return { y: record.value };
-            })}
-          />
-        </VictoryChart>
+        {data.length > 1 ? (
+          <VictoryChart theme={VictoryTheme.material} scale={{ x: "time" }}>
+            <VictoryLine
+              style={{
+                data: { stroke: "#c43a31" },
+                parent: { border: "1px solid #ccc" }
+              }}
+              domain={{ y: [1, 10] }}
+              data={data.map((record, i) => {
+                return { y: record.value, x: new Date(record.timestamp) };
+              })}
+              animate={{
+                duration: 2000,
+                onLoad: { duration: 1000 }
+              }}
+            />
+          </VictoryChart>
+        ) : (
+          <Text>Not enough data</Text>
+        )}
         <View style={styles.tagContainer}>
+          <Button
+            style={styles.tag}
+            backgroundColor={
+              this.state.selectedTags.length === 0 ? COLORS[0] : "grey"
+            }
+            title="All"
+            rounded
+            margin={0}
+            onPress={this.handleSelectAll.bind(this)}
+          />
           {tags.map((tag, i) => {
             const isSelected = this.state.selectedTags.indexOf(tag.name) > -1;
             const color = COLORS[i % 10];
