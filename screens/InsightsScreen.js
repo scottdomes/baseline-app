@@ -36,12 +36,17 @@ class InsightsScreen extends React.Component {
 
   handleSelectTag(name) {
     if (this.state.selectedTags.indexOf(name) === -1) {
-      console.log([...this.state.selectedTags, ...[name]]);
       this.setState({ selectedTags: [...this.state.selectedTags, ...[name]] });
     } else {
       let arr = [...this.state.selectedTags];
       arr.splice(arr.indexOf(name), 1);
       this.setState({ selectedTags: arr });
+    }
+  }
+
+  componentWillReceiveProps(next) {
+    if (next.navigation.state.params && next.navigation.state.params.name) {
+      this.setState({ selectedTags: [next.navigation.state.params.name] });
     }
   }
 
@@ -64,6 +69,7 @@ class InsightsScreen extends React.Component {
   };
 
   render() {
+    console.log(this.props);
     const { records, tags } = this.props;
     if (records.length === 0) {
       return null;

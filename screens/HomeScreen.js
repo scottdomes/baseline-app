@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { WebBrowser, LinearGradient } from "expo";
 import { connect } from "react-redux";
+import { NavigationActions } from "react-navigation";
 import { Button, List, ListItem } from "react-native-elements";
 import { Ionicons } from "@expo/vector-icons";
 import * as firebase from "firebase";
@@ -121,6 +122,15 @@ class HomeScreen extends React.Component {
     return array.sort((a, b) => b.value - a.value);
   };
 
+  handleTagPress(name) {
+    const navigateAction = NavigationActions.navigate({
+      routeName: "Insights",
+      params: { name }
+    });
+
+    this.props.navigation.dispatch(navigateAction);
+  }
+
   render() {
     const { records, tags } = this.props;
     const values = records.map(record => record.value);
@@ -129,6 +139,8 @@ class HomeScreen extends React.Component {
       (values.reduce((x, y) => x + y) / values.length).toFixed(1);
 
     const os = Platform.OS === "ios" ? "ios-" : "md-";
+    const weekIncreased = this.state.weekChange > 0
+    const monthIncreased = this.state.monthChange > 0
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -152,20 +164,20 @@ class HomeScreen extends React.Component {
           </View>
           <View style={styles.littleStatContainer}>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Average this
+              <Ionicons size={20} name={`${os}stats`} /> Average this
               week: {this.state.weekAverage.toFixed(1)}
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Changed{" "}
+              <Ionicons size={20} name={`${os}arrow-round-${weekIncreased ? "up" : "down"}`} /> { weekIncreased ? "Improved" : "Decreased" }{" "}
               {(this.state.weekChange).toFixed(1)}{" "}
               from last week
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Average this
+              <Ionicons size={20} name={`${os}stats`} /> Average this
               month: {this.state.monthAverage.toFixed(1)}
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-up`} /> Changed{" "}
+              <Ionicons size={20} name={`${os}arrow-round-${monthIncreased ? "up" : "down"}`} /> { monthIncreased ? "Improved" : "Decreased" }{" "}
               {(this.state.monthChange).toFixed(1)}{" "}
               from last month
             </Text>
@@ -176,6 +188,7 @@ class HomeScreen extends React.Component {
               return (
                 <ListItem
                   key={tag.name}
+                  onPress={this.handleTagPress.bind(this, tag.name)}
                   title={`${tag.value.toFixed(1)}     ${tag.name}`}
                 />
               );
