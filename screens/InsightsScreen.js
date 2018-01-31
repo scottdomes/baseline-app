@@ -72,7 +72,11 @@ class InsightsScreen extends React.Component {
     return (
       <ScrollView>
         {data.length > 2 ? (
-          <VictoryChart height={350} theme={VictoryTheme.material} scale={{ x: "time" }}>
+          <VictoryChart
+            height={350}
+            theme={VictoryTheme.material}
+            scale={{ x: "time" }}
+          >
             <VictoryLine
               style={{
                 data: { stroke: "#c43a31" },
@@ -94,7 +98,9 @@ class InsightsScreen extends React.Component {
             height={350}
             style={{ alignItems: "center", justifyContent: "center" }}
           >
-            <Text>Not enough data</Text>
+            <Text>
+              Not enough data for {this.state.selectedTags.join(" + ")}
+            </Text>
           </View>
         )}
         <View style={styles.tagContainer}>
@@ -108,7 +114,7 @@ class InsightsScreen extends React.Component {
             margin={0}
             onPress={this.handleSelectAll.bind(this)}
           />
-          {tags.map((tag, i) => {
+          {tags.sort((a, b) => a.name.localeCompare(b.name)).map((tag, i) => {
             const isSelected = this.state.selectedTags.indexOf(tag.name) > -1;
             const color = COLORS[i % 10];
             return (
