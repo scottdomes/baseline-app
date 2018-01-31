@@ -70,9 +70,9 @@ class InsightsScreen extends React.Component {
     }
     const data = records.filter(this.filterRecord);
     return (
-      <View>
-        {data.length > 1 ? (
-          <VictoryChart theme={VictoryTheme.material} scale={{ x: "time" }}>
+      <ScrollView>
+        {data.length > 2 ? (
+          <VictoryChart height={350} theme={VictoryTheme.material} scale={{ x: "time" }}>
             <VictoryLine
               style={{
                 data: { stroke: "#c43a31" },
@@ -80,6 +80,7 @@ class InsightsScreen extends React.Component {
               }}
               domain={{ y: [1, 10] }}
               data={data.map((record, i) => {
+                lastDate = record.value;
                 return { y: record.value, x: new Date(record.timestamp) };
               })}
               animate={{
@@ -89,7 +90,12 @@ class InsightsScreen extends React.Component {
             />
           </VictoryChart>
         ) : (
-          <Text>Not enough data</Text>
+          <View
+            height={350}
+            style={{ alignItems: "center", justifyContent: "center" }}
+          >
+            <Text>Not enough data</Text>
+          </View>
         )}
         <View style={styles.tagContainer}>
           <Button
@@ -118,7 +124,7 @@ class InsightsScreen extends React.Component {
             );
           })}
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
