@@ -104,9 +104,12 @@ class HomeScreen extends React.Component {
         // If they have not deleted the tag
         if (tagNames.indexOf(tag) > -1) {
           if (tree[tag]) {
-            tree[tag] = (tree[tag] + record.value) / 2;
+            tree[tag] = {
+              value: (tree[tag].value + record.value) / 2,
+              length: tree[tag].length + 1
+            };
           } else {
-            tree[tag] = record.value;
+            tree[tag] = { value: record.value, length: 1 };
           }
         }
       });
@@ -116,8 +119,8 @@ class HomeScreen extends React.Component {
 
   sortTree = tagTree => {
     const array = Object.keys(tagTree).map(name => {
-      const value = tagTree[name];
-      return { name, value };
+      const { value, length } = tagTree[name];
+      return { name, value, length };
     });
     return array.sort((a, b) => b.value - a.value);
   };
@@ -139,8 +142,8 @@ class HomeScreen extends React.Component {
       (values.reduce((x, y) => x + y) / values.length).toFixed(1);
 
     const os = Platform.OS === "ios" ? "ios-" : "md-";
-    const weekIncreased = this.state.weekChange > 0
-    const monthIncreased = this.state.monthChange > 0
+    const weekIncreased = this.state.weekChange > 0;
+    const monthIncreased = this.state.monthChange > 0;
     return (
       <View style={styles.container}>
         <LinearGradient
@@ -164,27 +167,36 @@ class HomeScreen extends React.Component {
           </View>
           <View style={styles.littleStatContainer}>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}stats`} /> Average this
-              week: {this.state.weekAverage.toFixed(1)}
+              <Ionicons size={20} name={`${os}stats`} /> Average this week:{" "}
+              {this.state.weekAverage.toFixed(1)}
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-${weekIncreased ? "up" : "down"}`} /> { weekIncreased ? "Improved" : "Decreased" }{" "}
-              {(this.state.weekChange).toFixed(1)}{" "}
-              from last week
+              <Ionicons
+                size={20}
+                name={`${os}arrow-round-${weekIncreased ? "up" : "down"}`}
+              />{" "}
+              {weekIncreased ? "Improved" : "Decreased"}{" "}
+              {this.state.weekChange.toFixed(1)} from last week
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}stats`} /> Average this
-              month: {this.state.monthAverage.toFixed(1)}
+              <Ionicons size={20} name={`${os}stats`} /> Average this month:{" "}
+              {this.state.monthAverage.toFixed(1)}
             </Text>
             <Text style={styles.littleStat}>
-              <Ionicons size={20} name={`${os}arrow-round-${monthIncreased ? "up" : "down"}`} /> { monthIncreased ? "Improved" : "Decreased" }{" "}
-              {(this.state.monthChange).toFixed(1)}{" "}
-              from last month
+              <Ionicons
+                size={20}
+                name={`${os}arrow-round-${monthIncreased ? "up" : "down"}`}
+              />{" "}
+              {monthIncreased ? "Improved" : "Decreased"}{" "}
+              {this.state.monthChange.toFixed(1)} from last month
             </Text>
           </View>
           <List>
-            <ListItem title={"Your tags"} hideChevron />
+            <ListItem title={"Your popular tags"} hideChevron />
             {this.sortTree(this.state.tagTree).map(tag => {
+              if (tag.length < 2) {
+                return null;
+              }
               return (
                 <ListItem
                   key={tag.name}

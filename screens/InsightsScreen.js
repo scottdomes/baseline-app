@@ -64,7 +64,7 @@ class InsightsScreen extends React.Component {
         if (tree[tag]) {
           tree[tag].records.push(record);
         } else {
-          tree[tag] = { records: [] };
+          tree[tag] = { records: [record] };
         }
       });
     });
@@ -172,7 +172,9 @@ class InsightsScreen extends React.Component {
                 style={styles.tag}
                 key={tag.id}
                 backgroundColor={
-                  isSelected ? COLORS[this.state.selectedTags.indexOf(tag.name)] : "grey"
+                  isSelected
+                    ? COLORS[this.state.selectedTags.indexOf(tag.name)]
+                    : "grey"
                 }
                 title={tag.name}
                 rounded
