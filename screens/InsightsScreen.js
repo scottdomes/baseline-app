@@ -69,7 +69,6 @@ class InsightsScreen extends React.Component {
   };
 
   render() {
-    console.log(this.props);
     const { records, tags } = this.props;
     if (records.length === 0) {
       return null;
@@ -91,7 +90,10 @@ class InsightsScreen extends React.Component {
               domain={{ y: [1, 10] }}
               data={data.map((record, i) => {
                 lastDate = record.value;
-                return { y: record.value, x: new Date(record.timestamp) };
+                return {
+                  y: record.value,
+                  x: new Date(record.timestamp)
+                };
               })}
               animate={{
                 duration: 2000,
@@ -109,6 +111,7 @@ class InsightsScreen extends React.Component {
             </Text>
           </View>
         )}
+        
         <View style={styles.tagContainer}>
           <Button
             style={styles.tag}
