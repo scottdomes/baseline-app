@@ -34,8 +34,8 @@ const moods = [
   "Subpar",
   "Bad",
   "Terrible",
-  "Horrendous",
-].reverse()
+  "Horrendous"
+].reverse();
 class ValueSelection extends React.Component {
   state = { selectedNumber: null, value: 5 };
   static navigationOptions = {
@@ -68,39 +68,7 @@ class ValueSelection extends React.Component {
     const { selectedValue } = this.props;
     const arr = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
     return (
-      <View>
-        <View
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            zIndex: 3,
-            right: 0,
-            bottom: 0,
-            height: Dimensions.get("window").height
-          }}
-        >
-          <Text style={styles.heading}>{this.state.value}</Text>
-          <Text style={styles.heading}>{moods[this.state.value - 1]}</Text>
-          <View style={{ justifyContent: "center", flex: 1 }}>
-            <Slider
-              minimumValue={0}
-              maximumValue={0.9}
-              value={.4}
-              thumbStyle={{ width: 100, height: 100, borderRadius: 100 }}
-              thumbTouchSize={{ width: 100, height: 100 }}
-              thumbTintColor={"white"}
-              orientation="vertical"
-              style={{ position: 'relative', top: -50 }}
-              onValueChange={this.handleValueChange}
-            />
-            <Button
-              onPress={this.next}
-              title="Next"
-              style={{ position: 'absolute', bottom: 0, right: 0 }}
-            />
-          </View>
-        </View>
+      <View style={{ flex: 1 }}>
         <ScrollView
           ref={el => (this.scroll = el)}
           style={styles.scrollContainer}
@@ -119,29 +87,34 @@ class ValueSelection extends React.Component {
             />
           </View>
         </ScrollView>
+        <View
+          style={{
+            zIndex: 2,
+            flex: 1,
+            marginTop: 20,
+            flexDirection: "column",
+            justifyContent: "space-around"
+          }}
+        >
+          <Text style={styles.heading}>{this.state.value}</Text>
+          <Text style={styles.heading}>{moods[this.state.value - 1]}</Text>
+          <View style={{ height: 375 }}>
+            <Slider
+              minimumValue={0}
+              maximumValue={0.9}
+              value={0.4}
+              orientation="vertical"
+              thumbStyle={{ width: 100, height: 100, borderRadius: 100 }}
+              thumbTouchSize={{ width: 100, height: 100 }}
+              thumbTintColor={"white"}
+              style={{ marginTop: 170 }}
+              onValueChange={this.handleValueChange}
+            />
+          </View>
+          <Button onPress={this.next} title="Next" style={{}} />
+        </View>
       </View>
     );
-    // return (
-    //   <ScrollView style={styles.container}>
-    //     {arr
-    //       .filter(
-    //         num =>
-    //           !selectedValue || selectedValue === num
-    //       )
-    //       .map(num => {
-    //         return (
-    //           <Button
-    //             onPress={this.handleSelectNumber.bind(this, num)}
-    //             style={styles.button}
-    //             backgroundColor={COLORS[num - 1]}
-    //             key={num}
-    //             title={`${num}`}
-    //           />
-    //         );
-    //       })}
-    //
-    //   </ScrollView>
-    // );
   }
 }
 
@@ -171,13 +144,18 @@ const styles = StyleSheet.create({
     marginTop: 10
   },
   scrollContainer: {
-    height: 1000
+    height: 1000,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0
   },
   heading: {
     fontSize: 40,
-    textAlign: 'center',
-    backgroundColor: 'transparent',
-    color: 'white',
-    marginTop: 40
+    textAlign: "center",
+    backgroundColor: "transparent",
+    color: "white"
+    // marginTop: 40,
+    // flex:  1
   }
 });
