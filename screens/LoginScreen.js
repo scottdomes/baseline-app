@@ -13,6 +13,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { Button, FormLabel, FormInput } from "react-native-elements";
 import { NavigationActions } from "react-navigation";
 import { facebookLogin, googleLogin } from "../resources/SocialAuth";
+import AnimatedGradient from "../components/AnimatedGradient";
 import * as firebase from "firebase";
 
 export default class LoginScreen extends React.Component {
@@ -67,8 +68,7 @@ export default class LoginScreen extends React.Component {
     if (this.state.showLoginForm) {
       return (
         <View style={styles.container}>
-          <LinearGradient
-            colors={["#FF7C00", "#C751D4", "#2887FF"]}
+          <AnimatedGradient
             style={{
               position: "absolute",
               left: 0,
@@ -159,8 +159,7 @@ export default class LoginScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
-        <LinearGradient
-          colors={["#FF7C00", "#C751D4", "#2887FF"]}
+        <AnimatedGradient
           style={{
             position: "absolute",
             left: 0,
