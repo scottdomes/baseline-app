@@ -50,7 +50,7 @@ class MainContainer extends React.Component {
           onFinish={this._handleFinishLoading}
         />
       );
-    } else if (!this.props.userLoaded) {
+    } else if (!this.props.userLoaded || (this.props.user && !this.props.recordsLoaded)) {
       return (
         <View style={styles.loadingContainer}>
           <LinearGradient
@@ -122,10 +122,11 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ user, userLoaded }) => {
+const mapStateToProps = ({ user, userLoaded, recordsLoaded }) => {
   return {
     user,
-    userLoaded
+    userLoaded,
+    recordsLoaded
   };
 };
 
@@ -146,9 +147,9 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(0,0,0,0.2)"
   },
   loadingText: {
-    backgroundColor: 'transparent',
+    backgroundColor: "transparent",
     fontSize: 20,
-    color: 'white',
+    color: "white",
     marginTop: 20
   }
 });

@@ -4,6 +4,7 @@ const initialState = {
   user: false,
   userLoaded: false,
   records: [],
+  recordsLoaded: false,
   newRecord: {
     value: null,
     tags: []
@@ -19,7 +20,7 @@ function rootReducer(state = initialState, action) {
     case "LOGOUT":
       return Object.assign({}, state, { user: null, userLoaded: true });
     case "SET_RECORDS":
-      return Object.assign({}, state, { records: action.payload });
+      return Object.assign({}, state, { records: action.payload, recordsLoaded: true });
     case "SET_TAGS":
       return Object.assign({}, state, { tags: action.payload });
     case "SELECT_NEW_RECORD_VALUE":

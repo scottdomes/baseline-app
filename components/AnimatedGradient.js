@@ -1,21 +1,41 @@
 import React from "react";
-import { StyleSheet, Dimensions, View } from 'react-native'
+import { StyleSheet, Dimensions, View } from "react-native";
 import { LinearGradient } from "expo";
-import Chroma from 'chroma-js'
+import Chroma from "chroma-js";
 
-var screenWidth = Dimensions.get('window').width
-var screenHeight = Dimensions.get('window').height
+var screenWidth = Dimensions.get("window").width;
+var screenHeight = Dimensions.get("window").height;
 
-const TOP_COLORS = ['#EF2A2A', '#EF6A2A', '#1BD170', '#22D2E6', '#2A3BEF', '#EF2AD2', '#EF2AD2']
-const BOTTOM_COLORS = ['#EF6A2A', '#EFD82A', '#61E822', '#26F084', '#2ADCEF', '#2A3BEF', '#EF2A2A']
-const GRADIENT_COLOR_LENGTH = 700
-const TOP_COLORS_SPECTRUM = Chroma.scale(TOP_COLORS).colors(GRADIENT_COLOR_LENGTH)
-const BOTTOM_COLORS_SPECTRUM = Chroma.scale(BOTTOM_COLORS).colors(GRADIENT_COLOR_LENGTH)
-const INTERVAL = 50
+const TOP_COLORS = [
+  "#EF2A2A",
+  "#EF6A2A",
+  "#1BD170",
+  "#22D2E6",
+  "#2A3BEF",
+  "#EF2AD2",
+  "#EF2AD2"
+];
+const BOTTOM_COLORS = [
+  "#EF6A2A",
+  "#EFD82A",
+  "#61E822",
+  "#26F084",
+  "#2ADCEF",
+  "#2A3BEF",
+  "#EF2A2A"
+];
+const GRADIENT_COLOR_LENGTH = 700;
+const TOP_COLORS_SPECTRUM = Chroma.scale(TOP_COLORS).colors(
+  GRADIENT_COLOR_LENGTH
+);
+const BOTTOM_COLORS_SPECTRUM = Chroma.scale(BOTTOM_COLORS).colors(
+  GRADIENT_COLOR_LENGTH
+);
+const INTERVAL = 50;
 
 export default class AnimatedGradient extends React.Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       topIndex: 0,
       bottomIndex: 0,
@@ -25,7 +45,7 @@ export default class AnimatedGradient extends React.Component {
   }
 
   componentDidMount() {
-    setInterval(() => {
+    this.interval = setInterval(() => {
       let { topIndex, bottomIndex } = this.state;
 
       topIndex++;
@@ -47,9 +67,16 @@ export default class AnimatedGradient extends React.Component {
     }, INTERVAL);
   }
 
+  componentWillUnmount() {
+    clearInterval(this.interval);
+  }
+
   render() {
     return (
-      <LinearGradient colors={[this.state.colorTop, this.state.colorBottom]} style={this.props.style}>
+      <LinearGradient
+        colors={[this.state.colorTop, this.state.colorBottom]}
+        style={this.props.style}
+      >
         <View style={styles.translucentContainer} />
       </LinearGradient>
     );
