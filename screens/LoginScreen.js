@@ -6,7 +6,9 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View
+  View,
+  Animated,
+  Easing
 } from "react-native";
 import { WebBrowser, LinearGradient } from "expo";
 import { Ionicons } from "@expo/vector-icons";
@@ -17,7 +19,12 @@ import AnimatedGradient from "../components/AnimatedGradient";
 import * as firebase from "firebase";
 
 export default class LoginScreen extends React.Component {
-  state = { showLoginForm: false, email: "", password: "" };
+  state = {
+    showLoginForm: false,
+    email: "",
+    password: "",
+    spinValue: new Animated.Value(0)
+  };
   static navigationOptions = {
     header: null
   };
@@ -64,7 +71,25 @@ export default class LoginScreen extends React.Component {
     facebookLogin();
   };
 
+  componentDidMount() {
+    this.runAnimation();
+  }
+
+  runAnimation() {
+    this.state.spinValue.setValue(0);
+    Animated.timing(this.state.spinValue, {
+      toValue: 1,
+      duration: 80000,
+      easing: Easing.linear
+    }).start(() => this.runAnimation());
+  }
+
   render() {
+    const spin = this.state.spinValue.interpolate({
+      inputRange: [0, 1],
+      outputRange: ["0deg", "360deg"]
+    });
+
     if (this.state.showLoginForm) {
       return (
         <View style={styles.container}>
@@ -169,6 +194,14 @@ export default class LoginScreen extends React.Component {
             flex: 1
           }}
         />
+        <View style={styles.headerContainer}>
+          <Animated.Image
+            source={require("../assets/images/transparent_icon.png")}
+            style={{ width: 100, height: 100, transform: [{ rotate: spin }] }}
+          />
+          <Text style={styles.titleText}>Baseline</Text>
+          <Text style={styles.taglineText}>Make happier decisions.</Text>
+        </View>
         <Button
           color="#6c757d"
           backgroundColor="#fff"
@@ -224,5 +257,22 @@ const styles = StyleSheet.create({
   form: {
     margin: 10,
     paddingBottom: 20
+  },
+  headerContainer: {
+    justifyContent: "center",
+    flexDirection: "column",
+    alignItems: "center",
+    marginBottom: 30
+  },
+  titleText: {
+    fontSize: 30,
+    backgroundColor: "transparent",
+    color: "#fff"
+  },
+  taglineText: {
+    fontSize: 15,
+    marginTop: 20,
+    backgroundColor: "transparent",
+    color: "#fff"
   }
 });
