@@ -207,7 +207,13 @@ class HomeScreen extends React.Component {
             })}
           </List>
 
-          <Button onPress={this.handleLogout} title="Logout" />
+          <Button
+            color="#6c757d"
+            backgroundColor="#fff"
+            containerViewStyle={styles.button}
+            onPress={this.handleLogout}
+            title="Log out"
+          />
         </ScrollView>
       </View>
     );
@@ -259,5 +265,9 @@ const styles = StyleSheet.create({
   },
   centered: {
     textAlign: "center"
+  },
+  button: {
+    marginTop: 20,
+    marginBottom: 10
   }
 });
