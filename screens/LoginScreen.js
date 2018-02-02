@@ -45,6 +45,10 @@ export default class LoginScreen extends React.Component {
       .signInWithEmailAndPassword("scottdomes+1@gmail.com", "password");
   };
 
+  handleGoBack = () => {
+    this.setState({ showLoginForm: false });
+  };
+
   handleSignup = () => {
     if (!this.state.email || !this.state.password) {
       this.setState({ isSigningUp: true });
@@ -129,8 +133,20 @@ export default class LoginScreen extends React.Component {
             backgroundColor="#fff"
             containerViewStyle={styles.button}
             onPress={this.handleSignup}
-            title="Sign Up"
+            title="Sign up"
           />
+          <TouchableOpacity onPress={this.handleGoBack}>
+            <Text
+              style={{
+                backgroundColor: "transparent",
+                textAlign: "center",
+                color: "white",
+                marginTop: 20
+              }}
+            >
+              Go back
+            </Text>
+          </TouchableOpacity>
           <Button
             color="#6c757d"
             backgroundColor="#fff"
