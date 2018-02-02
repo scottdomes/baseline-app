@@ -17,7 +17,7 @@ function rootReducer(state = initialState, action) {
     case "LOGIN":
       return Object.assign({}, state, { user: action.payload, userLoaded: true });
     case "LOGOUT":
-      return Object.assign({}, state, { user: null });
+      return Object.assign({}, state, { user: null, userLoaded: true });
     case "SET_RECORDS":
       return Object.assign({}, state, { records: action.payload });
     case "SET_TAGS":

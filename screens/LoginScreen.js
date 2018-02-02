@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   Image,
   Platform,
@@ -7,16 +7,16 @@ import {
   Text,
   TouchableOpacity,
   View
-} from 'react-native';
-import { WebBrowser } from 'expo';
-import { Ionicons } from '@expo/vector-icons';
-import { Button, FormLabel, FormInput } from 'react-native-elements';
-import { NavigationActions } from 'react-navigation';
-import { facebookLogin, googleLogin } from '../resources/SocialAuth';
-import * as firebase from 'firebase';
+} from "react-native";
+import { WebBrowser, LinearGradient } from "expo";
+import { Ionicons } from "@expo/vector-icons";
+import { Button, FormLabel, FormInput } from "react-native-elements";
+import { NavigationActions } from "react-navigation";
+import { facebookLogin, googleLogin } from "../resources/SocialAuth";
+import * as firebase from "firebase";
 
 export default class LoginScreen extends React.Component {
-  state = { showLoginForm: false, email: '', password: '' };
+  state = { showLoginForm: false, email: "", password: "" };
   static navigationOptions = {
     header: null
   };
@@ -42,7 +42,7 @@ export default class LoginScreen extends React.Component {
   handleAdmin = () => {
     firebase
       .auth()
-      .signInWithEmailAndPassword('scottdomes+1@gmail.com', 'password');
+      .signInWithEmailAndPassword("scottdomes+1@gmail.com", "password");
   };
 
   handleSignup = () => {
@@ -63,37 +63,78 @@ export default class LoginScreen extends React.Component {
     if (this.state.showLoginForm) {
       return (
         <View style={styles.container}>
-          <FormLabel>Email</FormLabel>
-          <FormInput
-            onChangeText={this.handleEmailChange}
-            placeholder="Your email..."
-            keyboardType="email-address"
-            value={this.state.email}
+          <LinearGradient
+            colors={["#FF7C00", "#C751D4", "#2887FF"]}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              flex: 1
+            }}
           />
-          <FormLabel>Password</FormLabel>
-          <FormInput
-            onChangeText={this.handlePasswordChange}
-            placeholder="Your password..."
-            secureTextEntry
-            value={this.state.password}
-          />
+          <View style={styles.form}>
+            <FormLabel
+              labelStyle={{ color: "#fff", backgroundColor: "transparent" }}
+            >
+              Email
+            </FormLabel>
+            <FormInput
+              onChangeText={this.handleEmailChange}
+              placeholder="Your email..."
+              placeholderTextColor="#fff"
+              keyboardType="email-address"
+              value={this.state.email}
+            />
+            <FormLabel
+              labelStyle={{
+                color: "#fff",
+                backgroundColor: "transparent"
+              }}
+            >
+              Password
+            </FormLabel>
+            <FormInput
+              placeholderTextColor="#fff"
+              onChangeText={this.handlePasswordChange}
+              placeholder="Your password..."
+              secureTextEntry
+              value={this.state.password}
+            />
+          </View>
+
           {!this.state.isSigningUp && (
             <View>
               <Button
-                style={styles.button}
+                color="#6c757d"
+                backgroundColor="#fff"
+                containerViewStyle={styles.button}
                 onPress={this.handleEmailLogin}
                 title="Login"
               />
-              <Text>OR</Text>
+              <Text
+                style={{
+                  backgroundColor: "transparent",
+                  textAlign: "center",
+                  color: "white"
+                }}
+              >
+                OR
+              </Text>
             </View>
           )}
           <Button
-            style={styles.button}
+            color="#6c757d"
+            backgroundColor="#fff"
+            containerViewStyle={styles.button}
             onPress={this.handleSignup}
             title="Sign Up"
           />
           <Button
-            style={styles.button}
+            color="#6c757d"
+            backgroundColor="#fff"
+            containerViewStyle={styles.button}
             onPress={this.handleAdmin}
             title="Admin Login"
           />
@@ -102,21 +143,50 @@ export default class LoginScreen extends React.Component {
     }
     return (
       <View style={styles.container}>
+        <LinearGradient
+          colors={["#FF7C00", "#C751D4", "#2887FF"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            flex: 1
+          }}
+        />
         <Button
-          style={styles.button}
-          icon={{ name: 'ios-mail', type: 'ionicon' }}
+          color="#6c757d"
+          backgroundColor="#fff"
+          icon={{
+            name: "ios-mail",
+            type: "ionicon",
+            color: "#6c757d"
+          }}
+          containerViewStyle={styles.button}
           onPress={this.handleToggleLogin}
           title="Login with Email"
         />
         <Button
-          style={styles.button}
-          icon={{ name: 'logo-facebook', type: 'ionicon' }}
+          color="#6c757d"
+          backgroundColor="#fff"
+          icon={{
+            name: "logo-facebook",
+            type: "ionicon",
+            color: "#6c757d"
+          }}
+          containerViewStyle={styles.button}
           onPress={this.handleFacebookLogin}
           title="Login with Facebook"
         />
         <Button
-          style={styles.button}
-          icon={{ name: 'logo-google', type: 'ionicon' }}
+          color="#6c757d"
+          backgroundColor="#fff"
+          icon={{
+            name: "logo-google",
+            type: "ionicon",
+            color: "#6c757d"
+          }}
+          containerViewStyle={styles.button}
           onPress={googleLogin}
           title="Login with Google"
         />
@@ -128,11 +198,16 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    justifyContent: 'center'
+    backgroundColor: "#fff",
+    justifyContent: "center"
   },
   button: {
     marginBottom: 10,
-    marginTop: 10
+    marginTop: 10,
+    backgroundColor: "#fff"
+  },
+  form: {
+    margin: 10,
+    paddingBottom: 20
   }
 });
