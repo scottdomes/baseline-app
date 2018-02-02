@@ -1,6 +1,13 @@
 import React from "react";
-import { Platform, StatusBar, StyleSheet, View } from "react-native";
-import { AppLoading, Asset, Font } from "expo";
+import {
+  Platform,
+  StatusBar,
+  StyleSheet,
+  View,
+  Text,
+  ActivityIndicator
+} from "react-native";
+import { AppLoading, Asset, Font, LinearGradient } from "expo";
 import { connect } from "react-redux";
 import { login, logout, setRecords, setTags } from "../actions";
 import { Ionicons } from "@expo/vector-icons";
@@ -21,7 +28,8 @@ const firebaseConfig = {
 class MainContainer extends React.Component {
   state = {
     isLoadingComplete: false,
-    isLoggedIn: false
+    isLoggedIn: false,
+    userLoaded: false
   };
 
   componentWillMount() {
@@ -42,17 +50,32 @@ class MainContainer extends React.Component {
           onFinish={this._handleFinishLoading}
         />
       );
-    } else {
+    } else if (!this.props.userLoaded) {
       return (
-        <View style={styles.container}>
-          {Platform.OS === "ios" && <StatusBar barStyle="default" />}
-          {Platform.OS === "android" && (
-            <View style={styles.statusBarUnderlay} />
-          )}
-          {Boolean(this.props.user) ? <RootNavigation /> : <LoginScreen />}
+        <View style={styles.loadingContainer}>
+          <LinearGradient
+            colors={["#FF7C00", "#C751D4", "#2887FF"]}
+            style={{
+              position: "absolute",
+              left: 0,
+              right: 0,
+              top: 0,
+              bottom: 0,
+              flex: 1
+            }}
+          />
+          <ActivityIndicator size="large" color="#fff" />
+          <Text style={styles.loadingText}>Loading data...</Text>
         </View>
       );
     }
+    return (
+      <View style={styles.container}>
+        {Platform.OS === "ios" && <StatusBar barStyle="default" />}
+        {Platform.OS === "android" && <View style={styles.statusBarUnderlay} />}
+        {Boolean(this.props.user) ? <RootNavigation /> : <LoginScreen />}
+      </View>
+    );
   }
 
   _loadResourcesAsync = async () => {
@@ -99,9 +122,10 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-const mapStateToProps = ({ user }) => {
+const mapStateToProps = ({ user, userLoaded }) => {
   return {
-    user
+    user,
+    userLoaded
   };
 };
 
@@ -112,8 +136,19 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#fff"
   },
+  loadingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    flex: 1
+  },
   statusBarUnderlay: {
     height: 24,
     backgroundColor: "rgba(0,0,0,0.2)"
+  },
+  loadingText: {
+    backgroundColor: 'transparent',
+    fontSize: 20,
+    color: 'white',
+    marginTop: 20
   }
 });

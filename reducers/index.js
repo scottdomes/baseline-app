@@ -2,6 +2,7 @@ import FirebaseResource from "../resources/FirebaseResource";
 
 const initialState = {
   user: false,
+  userLoaded: false,
   records: [],
   newRecord: {
     value: null,
@@ -14,7 +15,7 @@ function rootReducer(state = initialState, action) {
   const newRecord = Object.assign({}, state.newRecord);
   switch (action.type) {
     case "LOGIN":
-      return Object.assign({}, state, { user: action.payload });
+      return Object.assign({}, state, { user: action.payload, userLoaded: true });
     case "LOGOUT":
       return Object.assign({}, state, { user: null });
     case "SET_RECORDS":
