@@ -10,6 +10,7 @@ import {
 } from "../../actions";
 import FirebaseResource from "../../resources/FirebaseResource";
 import NotificationResource from "../../resources/NotificationResource";
+import { LinearGradient } from "expo";
 
 const COLORS = [
   "#ffbd4b",
@@ -70,18 +71,29 @@ class TagSelection extends React.Component {
     const selectedTags = newRecord.tags;
     return (
       <ScrollView style={styles.container}>
+        <LinearGradient
+          colors={["#FF7C00", "#C751D4", "#2887FF"]}
+          style={{
+            position: "absolute",
+            left: 0,
+            right: 0,
+            top: 0,
+            bottom: 0,
+            height: 1000
+          }}
+        />
         <View style={styles.tagContainer}>
           {tags.map((tag, i) => {
             const isSelected = selectedTags.indexOf(tag.name) > -1;
-            const color = COLORS[i % 10];
+            const color = ["#3f51b5", "#C751D4", "#2887FF"][i % 3];
             return (
               <Button
-                style={styles.tag}
+                containerViewStyle={styles.tag}
                 key={tag.id}
-                backgroundColor={isSelected ? color : "grey"}
+                backgroundColor="#fff"
                 title={tag.name}
                 rounded
-                margin={0}
+                color={isSelected ? "#6c757d" : color}
                 onPress={this.handleSelectTag.bind(this, tag.name)}
               />
             );
@@ -129,18 +141,19 @@ export default connect(mapStateToProps, mapDispatchToProps)(TagSelection);
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop: 15,
     backgroundColor: "#fff"
   },
   button: {
     marginTop: 10
   },
   tag: {
-    margin: 0,
+    marginLeft: 7,
+    marginRight: 7, 
     marginTop: 5,
     marginBottom: 5
   },
   tagContainer: {
+    paddingTop: 20,
     flexWrap: "wrap",
     alignItems: "flex-start",
     flexDirection: "row"

@@ -19,7 +19,6 @@ export default StackNavigator(
   },
   {
     navigationOptions: () => ({
-      header: null
     })
   }
 );
