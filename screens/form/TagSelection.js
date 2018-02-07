@@ -67,6 +67,14 @@ class TagSelection extends React.Component {
     this.setState({ modalOpen: true });
   };
 
+  toggleDeleteTags = () => {
+    this.setState(prev => ({ deleteTagsOn: !prev.deleteTagsOn }));
+  };
+
+  handleDeleteTag = id => {
+    FirebaseResource.deleteTag(id);
+  };
+
   next = () => {
     FirebaseResource.submitRecord(this.props.newRecord);
     NotificationResource.schedule();
@@ -108,11 +116,15 @@ class TagSelection extends React.Component {
               <Button
                 containerViewStyle={styles.tag}
                 key={tag.id}
-                backgroundColor="#fff"
+                backgroundColor={this.state.deleteTagsOn ? "#C93E63" : "#fff"}
                 title={tag.name}
                 rounded
-                color={isSelected ? "#6c757d" : color}
-                onPress={this.handleSelectTag.bind(this, tag.name)}
+                color={this.state.deleteTagsOn ? "#fff" : color}
+                onPress={
+                  this.state.deleteTagsOn
+                    ? this.handleDeleteTag.bind(this, tag.id)
+                    : this.handleSelectTag.bind(this, tag.name)
+                }
               />
             );
           })}
@@ -143,7 +155,7 @@ class TagSelection extends React.Component {
                 style={{
                   flexDirection: "row",
                   justifyContent: "flex-end",
-                  padding: 5,
+                  padding: 5
                 }}
               >
                 <TouchableHighlight

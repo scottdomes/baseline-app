@@ -33,6 +33,14 @@ class FirebaseResource {
       });
   }
 
+  deleteTag(id) {
+    console.log(id);
+    firebase
+      .database()
+      .ref(`${this.userId}/tags/${id}`)
+      .remove();
+  }
+
   setTagListener(setTags, userId) {
     firebase
       .database()
@@ -65,7 +73,7 @@ class FirebaseResource {
   submitRecord(record) {
     const data = {
       value: record.value,
-      type: 'happiness',
+      type: "happiness",
       tags: record.tags,
       timestamp: Date.now()
     };
