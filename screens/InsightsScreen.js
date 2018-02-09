@@ -60,13 +60,15 @@ class InsightsScreen extends React.Component {
   organizeRecords(records) {
     const tree = {};
     records.forEach((record, i) => {
-      record.tags.forEach(tag => {
-        if (tree[tag]) {
-          tree[tag].records.push(record);
-        } else {
-          tree[tag] = { records: [record] };
-        }
-      });
+      if (record.tags) {
+        record.tags.forEach(tag => {
+          if (tree[tag]) {
+            tree[tag].records.push(record);
+          } else {
+            tree[tag] = { records: [record] };
+          }
+        });
+      }
     });
     this.setState({ tree });
   }

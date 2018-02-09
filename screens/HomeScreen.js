@@ -100,19 +100,21 @@ class HomeScreen extends React.Component {
     const tree = {};
     const tagNames = tags.map(tag => tag.name);
     records.forEach(record => {
-      record.tags.forEach(tag => {
-        // If they have not deleted the tag
-        if (tagNames.indexOf(tag) > -1) {
-          if (tree[tag]) {
-            tree[tag] = {
-              value: (tree[tag].value + record.value) / 2,
-              length: tree[tag].length + 1
-            };
-          } else {
-            tree[tag] = { value: record.value, length: 1 };
+      if (record.tags) {
+        record.tags.forEach(tag => {
+          // If they have not deleted the tag
+          if (tagNames.indexOf(tag) > -1) {
+            if (tree[tag]) {
+              tree[tag] = {
+                value: (tree[tag].value + record.value) / 2,
+                length: tree[tag].length + 1
+              };
+            } else {
+              tree[tag] = { value: record.value, length: 1 };
+            }
           }
-        }
-      });
+        });
+      }
     });
     this.setState({ tagTree: tree });
   };

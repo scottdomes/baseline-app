@@ -17,6 +17,7 @@ import {
 } from "../../actions";
 import FirebaseResource from "../../resources/FirebaseResource";
 import NotificationResource from "../../resources/NotificationResource";
+import WhiteButton from "../../components/WhiteButton";
 import { LinearGradient } from "expo";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -80,14 +81,11 @@ class TagSelection extends React.Component {
     NotificationResource.schedule();
 
     this.props.resetRecord();
-    const resetAction = NavigationActions.reset({
-      index: 1,
-      actions: [
-        NavigationActions.navigate({ routeName: "ValueSelection" }),
-        NavigationActions.navigate({ routeName: "SaveConfirmation" })
-      ]
+    const navigateAction = NavigationActions.navigate({
+      routeName: "ValueSelection"
     });
-    this.props.navigation.dispatch(resetAction);
+
+    this.props.navigation.dispatch(navigateAction);
   };
 
   render() {
@@ -108,18 +106,38 @@ class TagSelection extends React.Component {
             height: 1000
           }}
         />
+        <View style={styles.iconContainer}>
+          <TouchableHighlight style={{ width: 40 }} onPress={this.openModal}>
+            <Ionicons color="#9BC155" size={40} name={`${os}add`} />
+          </TouchableHighlight>
+          <TouchableHighlight
+            style={{ width: 40 }}
+            onPress={this.toggleDeleteTags}
+          >
+            <Ionicons size={40} color="#C93E63" name={`${os}close`} />
+          </TouchableHighlight>
+        </View>
         <View style={styles.tagContainer}>
           {tags.map((tag, i) => {
             const isSelected = selectedTags.indexOf(tag.name) > -1;
             const color = ["#3f51b5", "#C751D4", "#2887FF"][i % 3];
+            const textColor =
+              this.state.deleteTagsOn || isSelected ? "#fff" : color;
+            let backgroundColor = '#fff'
+            if (isSelected) {
+              backgroundColor = color
+            }
+            if (this.state.deleteTagsOn) {
+              backgroundColor = "#C93E63"
+            }
             return (
               <Button
                 containerViewStyle={styles.tag}
                 key={tag.id}
-                backgroundColor={this.state.deleteTagsOn ? "#C93E63" : "#fff"}
+                backgroundColor={backgroundColor}
                 title={tag.name}
                 rounded
-                color={this.state.deleteTagsOn ? "#fff" : color}
+                color={textColor}
                 onPress={
                   this.state.deleteTagsOn
                     ? this.handleDeleteTag.bind(this, tag.id)
@@ -178,23 +196,7 @@ class TagSelection extends React.Component {
             </View>
           </View>
         </Modal>
-
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={this.openModal}
-            containerViewStyle={styles.smallButton}
-            title="New"
-            backgroundColor="#9BC155"
-          />
-          <Button
-            onPress={this.toggleDeleteTags}
-            containerViewStyle={styles.smallButton}
-            title="Delete"
-            backgroundColor="#C93E63"
-          />
-        </View>
-        <Button
-          large
+        <WhiteButton
           onPress={this.next}
           title="Next"
           style={{ marginTop: 20 }}
@@ -250,6 +252,7 @@ const styles = StyleSheet.create({
   smallButton: {
     flex: 1,
     marginLeft: 0,
+
     marginRight: 0
   },
   buttonContainer: {
@@ -257,5 +260,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     marginLeft: 15,
     marginRight: 15
+  },
+  iconContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    backgroundColor: "#fff"
   }
 });
