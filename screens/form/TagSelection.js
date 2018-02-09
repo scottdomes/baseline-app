@@ -199,7 +199,7 @@ class TagSelection extends React.Component {
         <WhiteButton
           onPress={this.next}
           title="Next"
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, marginBottom: 20 }}
         />
       </ScrollView>
     );

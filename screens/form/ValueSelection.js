@@ -6,6 +6,7 @@ import { NavigationActions } from "react-navigation";
 import * as firebase from "firebase";
 import { selectNewRecordValue } from "../../actions";
 import { LinearGradient } from "expo";
+import WhiteButton from "../../components/WhiteButton";
 var debounce = require("lodash.debounce");
 
 const COLORS = [
@@ -111,7 +112,7 @@ class ValueSelection extends React.Component {
               onValueChange={this.handleValueChange}
             />
           </View>
-          <Button onPress={this.next} title="Next" style={{}} />
+          <WhiteButton onPress={this.next} title="Next"/>
         </View>
       </View>
     );
