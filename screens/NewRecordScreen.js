@@ -7,6 +7,6 @@ export default class NewRecordScreen extends React.Component {
   };
 
   render() {
-    return <NewRecordFormNavigator />;
+    return <NewRecordFormNavigator screenProps={{ rootNav: this.props.rootNav}} />;
   }
 }

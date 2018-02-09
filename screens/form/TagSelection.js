@@ -81,11 +81,14 @@ class TagSelection extends React.Component {
     NotificationResource.schedule();
 
     this.props.resetRecord();
-    const navigateAction = NavigationActions.navigate({
-      routeName: "ValueSelection"
+    const resetAction = NavigationActions.reset({
+      index: 1,
+      actions: [
+        NavigationActions.navigate({ routeName: "ValueSelection" }),
+        NavigationActions.navigate({ routeName: "SaveConfirmation" })
+      ]
     });
-
-    this.props.navigation.dispatch(navigateAction);
+    this.props.navigation.dispatch(resetAction);
   };
 
   render() {
@@ -123,12 +126,12 @@ class TagSelection extends React.Component {
             const color = ["#3f51b5", "#C751D4", "#2887FF"][i % 3];
             const textColor =
               this.state.deleteTagsOn || isSelected ? "#fff" : color;
-            let backgroundColor = '#fff'
+            let backgroundColor = "#fff";
             if (isSelected) {
-              backgroundColor = color
+              backgroundColor = color;
             }
             if (this.state.deleteTagsOn) {
-              backgroundColor = "#C93E63"
+              backgroundColor = "#C93E63";
             }
             return (
               <Button
