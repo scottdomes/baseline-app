@@ -1,32 +1,21 @@
-import React from "react";
-import {
-  Image,
-  Platform,
-  ScrollView,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-  Animated,
-  Easing
-} from "react-native";
-import { WebBrowser, LinearGradient } from "expo";
-import { Ionicons } from "@expo/vector-icons";
-import { Button, FormLabel, FormInput } from "react-native-elements";
-import { NavigationActions } from "react-navigation";
-import { facebookLogin, googleLogin } from "../resources/SocialAuth";
-import AnimatedGradient from "../components/AnimatedGradient";
-import * as firebase from "firebase";
+import React from 'react';
+import { StyleSheet, Animated, Easing } from 'react-native';
+import * as firebase from 'firebase';
+
+import { facebookLogin, googleLogin } from '../resources/SocialAuth';
 
 export default class LoginScreen extends React.Component {
-  state = {
-    showLoginForm: false,
-    email: "",
-    password: "",
-    spinValue: new Animated.Value(0)
-  };
+  constructor(props) {
+    super(props);
+    this.state = {
+      showLoginForm: false,
+      email: '',
+      password: '',
+      spinValue: new Animated.Value(0),
+    };
+  }
   static navigationOptions = {
-    header: null
+    header: null,
   };
 
   handleToggleLogin = () => {
@@ -42,15 +31,11 @@ export default class LoginScreen extends React.Component {
   };
 
   handleEmailLogin = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword(this.state.email, this.state.password);
+    firebase.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
   };
 
   handleAdmin = () => {
-    firebase
-      .auth()
-      .signInWithEmailAndPassword("scottdomes+1@gmail.com", "password");
+    firebase.auth().signInWithEmailAndPassword('scottdomes+1@gmail.com', 'password');
   };
 
   handleGoBack = () => {
@@ -61,9 +46,7 @@ export default class LoginScreen extends React.Component {
     if (!this.state.email || !this.state.password) {
       this.setState({ isSigningUp: true });
     } else {
-      firebase
-        .auth()
-        .createUserWithEmailAndPassword(this.state.email, this.state.password);
+      firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password);
     }
   };
 
@@ -80,14 +63,14 @@ export default class LoginScreen extends React.Component {
     Animated.timing(this.state.spinValue, {
       toValue: 1,
       duration: 80000,
-      easing: Easing.linear
+      easing: Easing.linear,
     }).start(() => this.runAnimation());
   }
 
   render() {
     const spin = this.state.spinValue.interpolate({
       inputRange: [0, 1],
-      outputRange: ["0deg", "360deg"]
+      outputRange: ['0deg', '360deg'],
     });
 
     if (this.state.showLoginForm) {
@@ -95,18 +78,16 @@ export default class LoginScreen extends React.Component {
         <View style={styles.container}>
           <AnimatedGradient
             style={{
-              position: "absolute",
+              position: 'absolute',
               left: 0,
               right: 0,
               top: 0,
               bottom: 0,
-              flex: 1
+              flex: 1,
             }}
           />
           <View style={styles.form}>
-            <FormLabel
-              labelStyle={{ color: "#fff", backgroundColor: "transparent" }}
-            >
+            <FormLabel labelStyle={{ color: '#fff', backgroundColor: 'transparent' }}>
               Email
             </FormLabel>
             <FormInput
@@ -118,10 +99,9 @@ export default class LoginScreen extends React.Component {
             />
             <FormLabel
               labelStyle={{
-                color: "#fff",
-                backgroundColor: "transparent"
-              }}
-            >
+                color: '#fff',
+                backgroundColor: 'transparent',
+              }}>
               Password
             </FormLabel>
             <FormInput
@@ -144,11 +124,10 @@ export default class LoginScreen extends React.Component {
               />
               <Text
                 style={{
-                  backgroundColor: "transparent",
-                  textAlign: "center",
-                  color: "white"
-                }}
-              >
+                  backgroundColor: 'transparent',
+                  textAlign: 'center',
+                  color: 'white',
+                }}>
                 OR
               </Text>
             </View>
@@ -163,12 +142,11 @@ export default class LoginScreen extends React.Component {
           <TouchableOpacity onPress={this.handleGoBack}>
             <Text
               style={{
-                backgroundColor: "transparent",
-                textAlign: "center",
-                color: "white",
-                marginTop: 20
-              }}
-            >
+                backgroundColor: 'transparent',
+                textAlign: 'center',
+                color: 'white',
+                marginTop: 20,
+              }}>
               Go back
             </Text>
           </TouchableOpacity>
@@ -186,17 +164,17 @@ export default class LoginScreen extends React.Component {
       <View style={styles.container}>
         <AnimatedGradient
           style={{
-            position: "absolute",
+            position: 'absolute',
             left: 0,
             right: 0,
             top: 0,
             bottom: 0,
-            flex: 1
+            flex: 1,
           }}
         />
         <View style={styles.headerContainer}>
           <Animated.Image
-            source={require("../assets/images/transparent_icon.png")}
+            source={require('../assets/images/transparent_icon.png')}
             style={{ width: 100, height: 100, transform: [{ rotate: spin }] }}
           />
           <Text style={styles.titleText}>Baseline</Text>
@@ -206,9 +184,9 @@ export default class LoginScreen extends React.Component {
           color="#6c757d"
           backgroundColor="#fff"
           icon={{
-            name: "ios-mail",
-            type: "ionicon",
-            color: "#6c757d"
+            name: 'ios-mail',
+            type: 'ionicon',
+            color: '#6c757d',
           }}
           containerViewStyle={styles.button}
           onPress={this.handleToggleLogin}
@@ -218,9 +196,9 @@ export default class LoginScreen extends React.Component {
           color="#6c757d"
           backgroundColor="#fff"
           icon={{
-            name: "logo-facebook",
-            type: "ionicon",
-            color: "#6c757d"
+            name: 'logo-facebook',
+            type: 'ionicon',
+            color: '#6c757d',
           }}
           containerViewStyle={styles.button}
           onPress={this.handleFacebookLogin}
@@ -230,9 +208,9 @@ export default class LoginScreen extends React.Component {
           color="#6c757d"
           backgroundColor="#fff"
           icon={{
-            name: "logo-google",
-            type: "ionicon",
-            color: "#6c757d"
+            name: 'logo-google',
+            type: 'ionicon',
+            color: '#6c757d',
           }}
           containerViewStyle={styles.button}
           onPress={googleLogin}
@@ -246,33 +224,33 @@ export default class LoginScreen extends React.Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    justifyContent: "center"
+    backgroundColor: '#fff',
+    justifyContent: 'center',
   },
   button: {
     marginBottom: 10,
     marginTop: 10,
-    backgroundColor: "#fff"
+    backgroundColor: '#fff',
   },
   form: {
     margin: 10,
-    paddingBottom: 20
+    paddingBottom: 20,
   },
   headerContainer: {
-    justifyContent: "center",
-    flexDirection: "column",
-    alignItems: "center",
-    marginBottom: 30
+    justifyContent: 'center',
+    flexDirection: 'column',
+    alignItems: 'center',
+    marginBottom: 30,
   },
   titleText: {
     fontSize: 30,
-    backgroundColor: "transparent",
-    color: "#fff"
+    backgroundColor: 'transparent',
+    color: '#fff',
   },
   taglineText: {
     fontSize: 15,
     marginTop: 20,
-    backgroundColor: "transparent",
-    color: "#fff"
-  }
+    backgroundColor: 'transparent',
+    color: '#fff',
+  },
 });
