@@ -3,6 +3,7 @@ import { StyleSheet, Animated, Easing } from 'react-native';
 import * as firebase from 'firebase';
 
 import { facebookLogin, googleLogin } from '../resources/SocialAuth';
+import { flex, backgroundWhite, justifyCenter } from '../styles'
 
 export default class LoginScreen extends React.Component {
   constructor(props) {
@@ -75,7 +76,7 @@ export default class LoginScreen extends React.Component {
 
     if (this.state.showLoginForm) {
       return (
-        <View style={styles.container}>
+        <View style={[flex, justifyCenter, backgroundWhite]}>
           <AnimatedGradient
             style={{
               position: 'absolute',
